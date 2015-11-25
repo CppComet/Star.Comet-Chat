@@ -1,13 +1,9 @@
 <?php
- 
-if ($_SERVER['HTTP_X_REAL_IP'] != "159.8.8.107")
-{
-    die("Нет доступа с ip ".$_SERVER['HTTP_X_REAL_IP']); 
-}
-
+  
 include './config.php';
 include './common.php';
   
+testIpOrDie();
 $user_id = (int)$_GET['id'];
 
 
