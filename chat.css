@@ -1,0 +1,797 @@
+ 
+/* Tiny Scrollbar */
+.StarCometChat-list-holder {   clear: both; width: 201px; margin: 0px; }
+.StarCometChat-list-holder .viewport { width: 201px; height: 527px; /* Высота левой части окна */ overflow: hidden; position: relative; }
+.StarCometChat-list-holder .overview { list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0; width: 201px; min-height: 528px;}
+.StarCometChat-list-holder .scrollbar{ background: #e1e6ea; position: relative; background-position: 0 0; float: right; width: 0px; }
+.StarCometChat-list-holder .track { background: #e1e6ea; height: 100%; width: 9px; position: relative; padding: 0px; }
+.StarCometChat-list-holder .thumb { background: #fffffd; height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: 3px; }
+.StarCometChat-list-holder .thumb .end { background: #fffffd; overflow: hidden; height: 5px; width: 9px; }
+.StarCometChat-list-holder .disable { display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; } 
+
+/* Tiny Scrollbar */
+.StarCometChat-right-chat {   clear: both; padding-right: 9px; margin: 0px; height: 486px; /* Высота центральной части окна */ }
+.StarCometChat-right-chat .viewport { height: 486px; /* Высота центральной части окна */ overflow: hidden; position: relative; max-width: 100%;}
+.StarCometChat-right-chat .overview { padding-top: 12px; list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0; width: 751px; }
+.StarCometChat-width-min .StarCometChat-right-chat .overview { width: 422px;}
+.StarCometChat-mobile .StarCometChat-right-chat .overview { width: 633px; max-width: 100%;}
+.StarCometChat-right-chat .scrollbar{ background: #e1e6ea; position: relative; background-position: 0 0; float: right; width: 0px; }
+.StarCometChat-right-chat .track { background: #e1e6ea; height: 100%; width: 9px; position: relative; padding: 0px; }
+.StarCometChat-right-chat .thumb { background: #fffffd; height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: 3px; }
+.StarCometChat-right-chat .thumb .end { background: #fffffd; overflow: hidden; height: 5px; width: 9px; }
+.StarCometChat-right-chat .disable { display: none; }
+ 
+
+
+.StarCometChat-shadow-load
+{
+    position: fixed;
+    z-index: 29;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url('//chat.lovelama.ru/chat/img/ajax-loader.gif');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 150px;
+    display: none;
+}
+
+.StarCometChat-shadow
+{
+    position: fixed;
+    z-index: 29;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #404040;
+    opacity: 0.60; 
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 150px;
+    display: none;
+}
+ 
+.StarCometChat-mobile .StarCometChat-mobile-hidden
+{
+   display: none;
+}
+
+.StarCometChat-left-chat-style
+{
+    position: fixed;
+    bottom: 0px;
+    right: 20px;
+    background-color: #fff;
+    z-index: 30;
+    box-shadow: 0 0 10px #222;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.StarCometChat-center-chat-style
+{
+    position: relative;
+    top: 30px;
+    background-color: #fff;
+    z-index: 30;
+    box-shadow: 0 0 10px #222;
+    font-family: 'Times New Roman', Times, serif;
+    margin: auto; 
+    display: inline-block;
+}
+  
+.StarCometChat-holder
+{
+    text-align: justify;
+}
+
+.StarCometChat{
+    position: absolute;
+    z-index: 29;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+    min-height: 560px;
+}
+
+.StarCometChat textarea{
+    background: #fff;
+    height: auto;
+    color: #000;
+}
+
+.StarCometChat div{
+    box-sizing: content-box;
+}
+
+.StarCometChat td{
+    box-sizing: content-box;
+}
+.StarCometChat tr{
+    box-sizing: content-box;
+}
+.StarCometChat table{
+    box-sizing: content-box;
+}
+
+
+
+
+.StarCometChat-avatar
+{
+   position: absolute;
+}
+
+.StarCometChat-avatar img
+{
+   border-radius: 110px;
+   margin-left: 46px;
+   margin-top: 21px;
+   border: 2px solid #fff;
+   background-color: #fff;
+   width: 105px;
+   height: 105px;
+}
+
+.StarCometChat-avatarTo
+{
+   width: 55px;
+   border-radius: 55px;
+   background-color: #fff;
+   border: 2px solid #fff;
+}
+
+.StarCometChat-header
+{
+   background-color: #e83052;
+   background: linear-gradient(to left, #a71717, #e62e50);
+   height: 76px;
+}
+
+.StarCometChat-header div
+{
+   top:30px;
+   left:165px;
+   position: relative;
+   font-size: 24px;
+   color: #fff;
+}
+
+.StarCometChat-mobile .StarCometChat-header div{
+   left:30px;
+}
+
+.StarCometChat-picLine
+{
+}
+
+.StarCometChat-picLine div
+{
+   position: relative;
+}
+
+.StarCometChat-left-column
+{
+   width: 210px;
+   background-color: #fff;
+}
+
+.StarCometChat-right-column
+{
+   background-color: #f2f3f7;
+   width: 760px;
+}
+
+.StarCometChat-width-min .StarCometChat-right-column
+{
+   width: 430px;
+}
+
+.StarCometChat-width-min .StarCometChat-mobile .StarCometChat-right-column
+{
+   width: 640px;
+}
+
+
+.StarCometChat-right-top
+{
+   height: 49px;
+   background-color: #fff;
+   border-bottom: 1px solid #e4e8eb;
+   padding-top: 21px;
+   padding-left: 30px;
+   padding-bottom: 19px;
+}
+
+.StarCometChat-statusTo{
+   background-color: #97a3af;
+}
+
+.StarCometChat-online-user .StarCometChat-statusTo{
+   background-color: #9fd86d;
+}
+
+.StarCometChat-statusTo-point{
+   border: 2px solid #fff;
+   width: 10px;
+   height: 10px;
+   position: absolute;
+   border-radius: 10px;
+}
+
+.StarCometChat-selected-user .StarCometChat-statusTo-point{
+    border: 2px solid #aa181b;
+}
+
+.StarCometChat-statusTo-text{
+   border-radius: 20px;
+   width: 65px;
+   color: #fff;
+   text-align: center;
+   vertical-align: middle;
+   margin: 5px 0px;
+   font-size: 14px;
+   padding: 2px;
+   background-color: #9fd86d;
+   display: none;
+}
+
+.StarCometChat-online-user .StarCometChat-statusTo-text{
+    display: block;
+}
+
+.StarCometChat-inline{
+   display: inline-block;
+}
+
+.StarCometChat-small-color
+{
+   color:#b0b9c0;
+}
+
+.StarCometChat-lastOnlineTimeTo
+{
+   font-size: 12px;
+   display: block;
+}
+
+.StarCometChat-online-user .StarCometChat-lastOnlineTimeTo
+{
+   display: none;
+}
+
+.StarCometChat-nameTo{
+   font-size: 15px;
+}
+
+.StarCometChat-top-btn-list{
+   float: right;
+}
+
+.StarCometChat-top-btn-list ul{
+   padding: 0px;
+   margin: 0px;
+   margin-top: 12px;
+}
+
+.StarCometChat-top-btn-list ul li{
+   list-style: none;
+   display: inline-block;
+   font-size: 12px;
+   margin-right: 16px;
+   cursor: pointer;
+}
+
+.StarCometChat-top-btn-list ul li img{
+   margin-right: 6px;
+   position: relative;
+   top:2px;
+}
+.StarCometChat-width-min .StarCometChat-top-btn-list{
+   position: absolute;
+   margin-left: -120px;
+   z-index: 1;
+}
+
+.StarCometChat-width-min .StarCometChat-top-btn-list ul{
+   background-color: #fff;
+   border-top:1px solid #e1e4e9; 
+   display: none; 
+}
+
+.StarCometChat-width-min .StarCometChat-top-btn-list ul li{
+   display: block;
+   padding: 5px;
+   border: 1px solid #e1e4e9; 
+   border-top: 0px;
+   margin-right: 0px;
+}
+
+.StarCometChat-top-btn-open-list{
+   display: none;
+   float: right;
+   margin-top: 20px;
+   margin-right: 16px;
+   width: 20px;
+   text-align: center;
+}
+
+.StarCometChat-width-min .StarCometChat-top-btn-open-list{
+   display: inline-block;
+}
+
+.StarCometChat-user-url-page{
+    color: #000;
+}
+
+.StarCometChat-input-holder{
+   padding-top: 24px;
+   padding-left: 33px;
+   padding-bottom: 30px;
+   background-color: #fff;
+   border: 0px;
+   border-top: 1px solid #e1e4e9;
+   color: #ccd1d7;
+   height: 79px;
+}
+
+.StarCometChat-input-text{
+   border: 1px solid #ccd1d7;
+   border-radius: 5px;
+   padding: 10px;
+   font-size: 14px;
+   width: 100%; 
+   max-height: 74px; 
+   height: 74px !important; 
+   float: left;
+   padding-right: 40px;
+}
+.StarCometChat-width-min .StarCometChat-input-sendBtn{
+   text-align: center;
+}
+ 
+.StarCometChat-self-avatar-bottom
+{
+   width: 74px;
+   padding-right: 20px;
+}
+
+.StarCometChat-self-avatar-bottom img
+{
+   width: 70px;
+   height: 70px;
+   border-radius: 75px;
+   border: 2px solid #fff;
+   float: left;
+   max-width: 70px;
+}
+
+.StarCometChat-width-min .StarCometChat-self-avatar-bottom{
+   display: none;
+}
+
+.StarCometChat-input-sendBtn{
+    max-width: 100px;
+    text-align: right;
+    vertical-align: middle;
+    /* color: #93A0A9; */
+    color: #707A82;
+    text-align: center;
+}
+
+.StarCometChat-input-sendBtn div{
+   font-size: 19px;   
+   cursor: pointer;
+   display: inline-block;
+}
+
+.StarCometChat-messge{
+   margin-top: 12px;
+   margin-left: 30px;
+   clear: both;
+   min-height: 50px;
+}
+
+.StarCometChat-messge-my{
+   margin-top: 12px;
+   text-align: right;
+   margin-right: 20px;
+}
+
+.StarCometChat-message-avatar{
+   width: 50px;
+   height: 50px;
+   border-radius: 50px;
+   border: 2px solid #fff;
+   float: left;
+}
+
+.StarCometChat-message-text{
+   background-color: #fff; /*  */
+   border-radius: 5px;
+   padding: 5px;
+   margin-left: 6px;
+   width: 60%;
+   display: inline-block;
+   text-align: left;
+   word-wrap: break-word;
+}
+
+@media screen and (max-device-width: 600px) 
+{
+    .StarCometChat-messge .StarCometChat-message-text{
+        max-width: 180px;
+    }
+    
+    .StarCometChat-messge-my .StarCometChat-message-text{
+         
+    }
+}
+
+.StarCometChat-messge-my .StarCometChat-message-text{
+   background-color: #e0e5e9;
+}
+
+.StarCometChat-message-text img{
+    display: block;
+    /*max-width: 440px;*/
+}
+
+.StarCometChat-message-time{
+   display: inline-block;
+   color: #b0b9c0;
+   font-size: 13px;
+}
+
+.StarCometChat-message-is-read{
+   display: inline-block;
+   color: #b0b9c0;
+   font-size: 13px;
+}
+
+.StarCometChat-message-read:before{
+    content: "\2714"
+}
+
+.StarCometChat-message-pic-left{
+   height: 12px;
+   width: 6px;
+   display: inline-block;
+   position: absolute;
+   margin-top: 10px;
+   background-image: url('//chat.lovelama.ru/chat/img/pic-left.png');
+}
+
+.StarCometChat-message-pic-right{
+   position: absolute;
+   background-image: url('//chat.lovelama.ru/chat/img/pic-right.png');
+   margin-top: 8px;
+   display: inline-block;
+   height: 12px;
+   width: 6px;
+}
+
+.StarCometChat-left-top-column{
+   border-right: 9px solid #e1e4e9;
+   padding-top: 81px;
+   width: 201px;
+}
+
+.StarCometChat-left-tabs{
+   border-bottom: 1px solid #e1e4e9;
+   border-top: 1px solid #e1e4e9;
+   margin-top: 30px;
+   height: 48px;
+}
+
+.StarCometChat-left-search{
+   border-bottom: 1px solid #e1e4e9;
+   border-top: 1px solid #e1e4e9;
+   margin-top: 30px;
+   height: 48px;
+
+   background-color: #e1e4e9;
+   display: none;
+   text-align: center;
+}
+
+.StarCometChat-left-search input{
+   width: 95%;
+   background-color: transparent;
+   border: 0px solid;
+   height: 35px;
+   padding: 5px;
+   text-align: left;
+}
+
+.StarCometChat-left-tab{
+   display: inline-block;
+   font-size: 14px;
+   padding: 15px 0px;
+   margin: 0px;
+   text-align: center;
+   float: left;
+   width: 50%;
+   cursor: pointer;
+}
+
+.StarCometChat-left-tab-select{
+   background-color: #e1e4e9;
+}
+
+.StarCometChat-list-avatar{
+   width: 50px;
+   height: 50px;
+   display: inline-block;
+}
+
+.StarCometChat-list-avatar img{
+   width: 50px;
+   height: 50px;
+   border-radius: 50px;
+   border: 2px solid #fff;
+}
+.StarCometChat-selected-user .StarCometChat-list-avatar img{
+   border: 2px solid #aa181b;
+}
+
+.StarCometChat-list{
+   text-align: center;
+   font-size: 14px;
+   color: #95a5b2;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   border-bottom: 1px solid #e1e4e9;
+   cursor: pointer;
+}
+.StarCometChat-list a{
+   color: #95a5b2;
+}
+
+.StarCometChat-count-message
+{
+   background-image: url('//chat.lovelama.ru/chat/img/msg-count.png');
+   width: 27px;
+   height: 25px;
+   background-repeat: no-repeat;
+   color: #fff;
+   padding-top: 5px;
+   position: absolute;
+   margin-left: 170px;
+/*   display: none;*/
+}
+
+.StarCometChat-all-message{
+   position: absolute;
+   background-color: #ed2518;
+   color: #fff;
+   padding: 5px;
+   border-radius: 35px;
+   margin-top: 15px;
+   margin-left: 37px;
+   min-width: 15px;
+   text-align: center;
+   display: none;
+}
+
+.StarCometChat-list-show-btn{
+   position: absolute;
+   width: 20px;
+   background-color: #fff;
+   margin-top: -300px;
+   text-align: center;
+   padding: 28px 0px;
+   color: #96a4b1;
+   cursor: pointer;
+}
+
+.StarCometChat-list-hide-btn{
+   position: absolute;
+   width: 20px;
+   background-color: #fff;
+   margin-top: -220px;
+   text-align: center;
+   padding: 28px 0px;
+   color: #96a4b1;
+   cursor: pointer;
+}
+
+.StarCometChat-list-toggle-btn{ 
+    display: none;
+}
+
+.StarCometChat-list-toggle-btn:hover{
+   width: 22px;
+}
+
+.StarCometChat-width-min .StarCometChat-list-toggle-btn{
+    display: block;
+}
+
+
+.StarCometChat-select{
+   display: inline-block;
+}
+
+.StarCometChat-pic1{
+   margin-left: 36px;
+   width: 20px;
+   height: 18px;
+   display: inline-block;
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line1.png');
+   cursor: pointer;
+}
+
+.StarCometChat-select .StarCometChat-pic1{
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line1-hover.png');
+}
+
+.StarCometChat-pic2{
+   margin-left: 36px;
+   width: 20px;
+   height: 18px;
+   display: inline-block;
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line2.png');
+   cursor: pointer;
+}
+
+.StarCometChat-select .StarCometChat-pic2{
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line2-hover.png');
+}
+
+.StarCometChat-pic3{
+   margin-left: 36px;
+   width: 20px;
+   height: 18px;
+   display: inline-block;
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line3.png');
+   cursor: pointer;
+}
+
+.StarCometChat-select .StarCometChat-pic3{
+   background-image: url('//chat.lovelama.ru/chat/img/pic-line3-hover.png');
+}
+
+.StarCometChat-loc-user{
+   background-image: url('//chat.lovelama.ru/chat/img/loc.png');
+   background-repeat: no-repeat;
+   background-position: 19px 19px;
+}
+
+.StarCometChat-input-file{
+   background-image: url('//chat.lovelama.ru/chat/img/add-file.png');
+   background-repeat: no-repeat;
+   width: 25px;
+   height: 29px; 
+   display: inline-block;
+   position: absolute;
+   margin-left: -50px;
+   margin-top: 20px;
+   overflow: hidden;
+   cursor: pointer;
+}
+
+.StarCometChat-input-file input{
+   background-color: #fff;
+   position: absolute;
+   width: 25px;
+   height: 29px;  
+   opacity: 0;
+   cursor: pointer;
+} 
+
+.StarCometChat-selected-user{
+    background-color: #aa181b;
+    color:#fff;
+}
+
+.StarCometChat-selected-user a{ 
+    color:#fff;
+}
+
+.StarCometChat-selected-user .StarCometChat-count-message{
+    display: none;
+}
+
+.StarCometChat-header-btn-right{
+    float: right;
+    position: absolute;
+    right: 0px;
+    top: 29px;
+}
+
+.StarCometChat-header-btn-right img{
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.StarCometChat-loadLastPage{
+    text-align: center;
+    padding: 5px;
+    color: #8BA8AD;
+    background-color: #fff;
+    margin: auto;
+    width: 300px;
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.StarCometChat-loadLastPage:hover{
+    color: #53676B;
+}
+
+
+.StarCometChat-admin-link{
+    display: none; 
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    width: 30px;
+    overflow: hidden;
+    background-color: #26B926;
+    border-radius: 100px;
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 9px 3px;
+}
+
+.StarCometChat-admin-link input{
+background-image: none;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 9px;
+    margin-top: -5px;
+    padding: 3px 0px;
+}
+
+
+.StarCometChat-block-alert{
+    background-color: #FFF;
+    width: 205px;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    display: none;
+}
+
+.StarCometChat-not-paid-alert{
+    background-color: #FFF;
+    width: 205px;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px;
+    display: none;
+    border: 2px solid #f00;
+}
+
+
+.StarCometChat-send-text{
+    position: absolute; margin-left: 95px;
+}
+
+.StarCometChat-file-attachment{
+    position: absolute;
+    margin-left: 230px;
+    color: #767F87;
+    display: none;
+}
+
+@media screen and (max-device-width: 980px) 
+{
+    .StarCometChat-send-text{
+        display: none;
+    }
+    
+    .StarCometChat-file-attachment{
+         margin-left: 0px;
+    }
+}
