@@ -27,7 +27,7 @@ if(!mysqli_num_rows($result))
 
 if(isset($_FILES["img"]))
 {
-    if($_FILES["img"]['size'] > 2*1024*1024)
+    if($_FILES["img"]['size'] > getConfArray('max_img_size'))
     {
         die("Не правильный размер ".$_FILES["img"]['size']);
     }

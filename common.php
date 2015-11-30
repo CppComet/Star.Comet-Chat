@@ -25,7 +25,7 @@ function getUserIdOrDie()
     if(isset($_POST['user_id']))
     {
         $user_id = (int)$_POST['user_id'];
-        setcookie("user_id", $user_id, time()+3600*24, '/', "comet-server.ru");  /* срок действия 1*24 час */
+        setcookie("user_id", $user_id, time() + getConfArray('cookie_expire'), '/', "comet-server.ru");  /* срок действия 1*24 час */
     }
     
     if( !$user_id )
@@ -41,7 +41,7 @@ function getUserIdOrDie()
     if(isset($_POST['user_key']))
     {
         $user_key = $_POST['user_key'];
-        setcookie("user_key", $user_key, time()+3600*24, '/', "comet-server.ru");  /* срок действия 1*24 час */
+        setcookie("user_key", $user_key, time() + getConfArray('cookie_expire'), '/', "comet-server.ru");  /* срок действия 1*24 час */
     }
     
     if( !$user_key )

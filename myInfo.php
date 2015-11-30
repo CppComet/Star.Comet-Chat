@@ -73,13 +73,10 @@ if(!is_array($selfInfo))
     exit(); 
 }
 
-$selfInfo["is_admin"] = in_array($user_id, app::conf()->admin_ids); 
-//mysqli_query(app::conf()->getDB(), "UPDATE `users` SET `error` = '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['error'])."' WHERE  `id` = ".(int)$user_id);
-
+$selfInfo["is_admin"] = in_array($user_id, app::conf()->admin_ids);  
 $selfInfo['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $selfInfo['login']);
 mysqli_query(app::conf()->getDB(), "REPLACE into  `users` (`id`, `login`, `avatar_url`, `error` )VALUES('".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['user_id'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['login'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['avatar_url'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['error'])."')");
-//echo "replace into  `users` ( id, `login`, `avatar_url`, `error` )values('".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['user_id'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['login'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['avatar_url'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['error'])."')";
-
+ 
 
 echo json_encode(array("success"=>true, "contacts" => $resInfo, "myInfo" => $selfInfo));
 
