@@ -23,10 +23,18 @@ $conf['trusted_ip'] = false;            // На пример "159.8.8.107"
 $conf['max_img_size'] = 2*1024*1024;    // Максимальный размер загружаемого изображения 
 $conf['cookie_expire'] = 3600*24;       // Время жизни кук авторизации
 
+/**
+ * URL для запроса хеша авторизации
+ */
+$conf['URL_getUsersHash'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_user_hash.php';
+
+/**
+ * URL для запроса информации о пользователях в json
+ */
+$conf['URL_getUsersInfo'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_users.php'; 
 
 
 // @todo Перенести сюда все настроки которые надо будет менять пользователям в момент интеграции чата
-
 
 /**
  * Разрешает доступ только для запросов с доверенных ip адресов
@@ -138,7 +146,7 @@ function getUsersInfo($arr)
 
     if( $curl = curl_init())
     {
-        curl_setopt($curl, CURLOPT_URL, 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_users.php');
+        curl_setopt($curl, CURLOPT_URL, getConfArray('URL_getUsersInfo'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
         curl_setopt($curl, CURLOPT_USERAGENT,  $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -163,7 +171,7 @@ function getUsersHash($arr)
 
     if( $curl = curl_init())
     {
-        curl_setopt($curl, CURLOPT_URL, 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_user_hash.php');
+        curl_setopt($curl, CURLOPT_URL, getConfArray('URL_getUsersHash'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
         curl_setopt($curl, CURLOPT_USERAGENT,  $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($curl, CURLOPT_POST, true);
