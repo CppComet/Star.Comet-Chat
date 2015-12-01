@@ -14,7 +14,6 @@
  * Url адрес для бекенда
  * @type String|String
  */
-var hostUrl = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat"; 
 
 var relation_types = {0:'base', 1:'favorite', 2:'loc'}
 
@@ -24,6 +23,11 @@ var StarCometChat = function()
 }
 
 StarCometChat.opt = {};
+
+/**
+ * Адрес чата
+ */
+StarCometChat.opt.home_dir = undefined; 
 
 /**
  * Использование звуковых уведомлений
@@ -107,20 +111,20 @@ StarCometChat.init = function(options)
     }
 
     var html = '<audio class="StarCometChat-msg-audio">\
-                <source src="'+hostUrl+'/audio/msg.mp3" />\
+                <source src="'+StarCometChat.opt.home_dir+'/audio/msg.mp3" />\
         </audio>\
         \
         <div class="StarCometChat-holder">\
             <div class="StarCometChat-avatar StarCometChat-mobile-hidden">\
-                <img src="'+hostUrl+'/img/avata.png" class="StarCometChat-userAvatar">\
+                <img src="'+StarCometChat.opt.home_dir+'/img/avata.png" class="StarCometChat-userAvatar">\
             </div>\
             <div class="StarCometChat-header"><div class="StarCometChat-userName"></div></div>\
             \
             <div class="StarCometChat-admin-link"></div>\
             \
             <div class="StarCometChat-header-btn-right">\
-                <img src="'+hostUrl+'/img/sound.png" onclick="StarCometChat.toggleSound()" class="toggleSoundBtn" >\
-                <img src="'+hostUrl+'/img/close.png" onclick="StarCometChat.closeChat()">\
+                <img src="'+StarCometChat.opt.home_dir+'/img/sound.png" onclick="StarCometChat.toggleSound()" class="toggleSoundBtn" >\
+                <img src="'+StarCometChat.opt.home_dir+'/img/close.png" onclick="StarCometChat.closeChat()">\
             </div>\
 \
             <table cellpadding="0" cellspacing="0" style="border-spacing:0px; border-collapse:collapse;">\
@@ -162,7 +166,7 @@ StarCometChat.init = function(options)
                         <a target="_blank" class="StarCometChat-user-url-page" >\
                             <div class="StarCometChat-inline" style="float: left;" onclick="StarCometChat.OpenUserPage()">\
                                 <div class="StarCometChat-statusTo StarCometChat-statusTo-point"></div>\
-                                <div><img src="'+hostUrl+'/img/avata2.png" class="StarCometChat-avatarTo" ></div>\
+                                <div><img src="'+StarCometChat.opt.home_dir+'/img/avata2.png" class="StarCometChat-avatarTo" ></div>\
                             </div>\
                             <div class="StarCometChat-inline" style="float: left;margin-left: 10px;">\
                                 <div class="StarCometChat-nameTo"></div>\
@@ -173,13 +177,13 @@ StarCometChat.init = function(options)
                            \
                             <div class="StarCometChat-inline" style="float: right;"> \
                                 <div class="StarCometChat-inline StarCometChat-top-btn-open-list" onclick="$(\'.StarCometChat-top-btn-list ul\').toggle();  $(\'.StarCometChat-top-btn-open-list\').toggle(); event.stopPropagation()">\
-                                    <img src="'+hostUrl+'/img/ul-open.png">\
+                                    <img src="'+StarCometChat.opt.home_dir+'/img/ul-open.png">\
                                 </div>\
                                 <div class="StarCometChat-inline StarCometChat-top-btn-list"> \
                                     <ul class="StarCometChat-small-color" >\
-                                        <li onclick="StarCometChat.sendAbuse()"><img src="'+hostUrl+'/img/pic4.png">Пожаловаться</li> \
-                                        <li onclick="StarCometChat.toggleBlockUser()" class="toggle-block-user-btn"><img src="'+hostUrl+'/img/pic1.png"><span>Блокировать</span></li>\
-                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="'+hostUrl+'/img/star.png"><span>Избранное</span></li> \
+                                        <li onclick="StarCometChat.sendAbuse()"><img src="'+StarCometChat.opt.home_dir+'/img/pic4.png">Пожаловаться</li> \
+                                        <li onclick="StarCometChat.toggleBlockUser()" class="toggle-block-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/pic1.png"><span>Блокировать</span></li>\
+                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/star.png"><span>Избранное</span></li> \
                                     </ul> \
                                 </div>\
                             </div>\
@@ -207,7 +211,7 @@ StarCometChat.init = function(options)
                                     </td>\
                                     <td class="StarCometChat-input-btn-block" >\
                                         <div onclick="StarCometChat.sendMessage()" title="Отправить Ctrl+Enter" >\
-                                            <img src="'+hostUrl+'/img/carousel_arrow_right.png">\
+                                            <img src="'+StarCometChat.opt.home_dir+'/img/carousel_arrow_right.png">\
                                         </div>\
                                         <div class="StarCometChat-input-file"> \
                                             <input type="file" onchange="StarCometChat.uploadFile(event)">\
@@ -237,11 +241,11 @@ StarCometChat.init = function(options)
 
     if(!StarCometChat.opt.useSsound)
     {
-        $(".toggleSoundBtn").attr("src",  hostUrl+"/img/soundNone.png");
+        $(".toggleSoundBtn").attr("src",  StarCometChat.opt.home_dir+"/img/soundNone.png");
     }
     else
     {
-        $(".toggleSoundBtn").attr("src", hostUrl+"/img/sound.png");
+        $(".toggleSoundBtn").attr("src", StarCometChat.opt.home_dir+"/img/sound.png");
     }
 
 
@@ -295,7 +299,7 @@ StarCometChat.init = function(options)
         if(data.myInfo.is_admin)
         {
                  $(".StarCometChat-admin-link").show()
-                 .html("<form method='POST' action='"+hostUrl+"/admin/admin.php'><input type='submit' value='A' ><input type='hidden' value='"+StarCometChat.opt.user_id+"' name='user_id' ><input type='hidden' value='"+StarCometChat.opt.user_key+"' name='user_key' ></form>");
+                 .html("<form method='POST' action='"+StarCometChat.opt.home_dir+"/admin/admin.php'><input type='submit' value='A' ><input type='hidden' value='"+StarCometChat.opt.user_id+"' name='user_id' ><input type='hidden' value='"+StarCometChat.opt.user_key+"' name='user_key' ></form>");
         }
 
         // Сортируем контакты по количеству новых сообщений
@@ -369,7 +373,7 @@ StarCometChat.init = function(options)
 
 
     jQuery.ajax({
-        url: hostUrl+"/myInfo.php",
+        url: StarCometChat.opt.home_dir+"/myInfo.php",
         type: "POST",
         /*dataType:'json',*/
         data:"user_id="+encodeURIComponent(options.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
@@ -393,7 +397,7 @@ StarCometChat.init = function(options)
 
             //Пометить прочитанным
             jQuery.ajax({
-                url: hostUrl+"/markAsReadMessage.php",
+                url: StarCometChat.opt.home_dir+"/markAsReadMessage.php",
                 type: "POST",
                 /*dataType:'json',*/
                 data:"from_user_id="+event.data.from_user_id+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
@@ -455,11 +459,11 @@ StarCometChat.toggleSound = function()
     window.localStorage['StarCometChat.useSsound'] = StarCometChat.opt.useSsound/1
     if(!StarCometChat.opt.useSsound)
     {
-        $(".toggleSoundBtn").attr("src", hostUrl+"/img/soundNone.png");
+        $(".toggleSoundBtn").attr("src", StarCometChat.opt.home_dir+"/img/soundNone.png");
     }
     else
     {
-        $(".toggleSoundBtn").attr("src", hostUrl+"/img/sound.png");
+        $(".toggleSoundBtn").attr("src", StarCometChat.opt.home_dir+"/img/sound.png");
     }
 }
 
@@ -603,7 +607,7 @@ StarCometChat.toggleBlockUser = function()
 
 
     jQuery.ajax({
-        url: hostUrl+"/blockUser.php",
+        url: StarCometChat.opt.home_dir+"/blockUser.php",
         type: "POST",
         dataType:'json',
         data:"block_user_id="+encodeURIComponent(user_id)+"&block="+setBlock+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
@@ -648,7 +652,7 @@ StarCometChat.toggleFavoritUser = function()
 
 
     jQuery.ajax({
-        url: hostUrl+"/blockUser.php",
+        url: StarCometChat.opt.home_dir+"/blockUser.php",
         type: "POST",
         dataType:'json',
         data:"block_user_id="+encodeURIComponent(user_id)+"&block="+setBlock+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
@@ -682,7 +686,7 @@ StarCometChat.sendAbuse = function()
     }
 
     jQuery.ajax({
-        url: hostUrl+"/abuseToUser.php",
+        url: StarCometChat.opt.home_dir+"/abuseToUser.php",
         type: "POST",
         /*dataType:'json',*/
         data:"abuse_to="+encodeURIComponent(user_id)+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
@@ -830,7 +834,7 @@ StarCometChat.getTimeString = function(unixTime)
 StarCometChat.getMessageHtml = function(message)
 {
     var text = message.message.replace(/\n/mg, "<br>")
-                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+hostUrl+"/usersFile/$1' target='_blank' ><img src='"+hostUrl+"/usersFile/$1'></a>")
+                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+StarCometChat.opt.home_dir+"/usersFile/$1' target='_blank' ><img src='"+StarCometChat.opt.home_dir+"/usersFile/$1'></a>")
 
 
     if(message.from_user_id && message.from_user_id == StarCometChat.interlocutor_id)
@@ -870,7 +874,7 @@ StarCometChat.openDialogPage = function(page)
     $('.StarCometChat-loadLastPage').hide();
 
     jQuery.ajax({
-        url: hostUrl+"/getLastMessage.php",
+        url: StarCometChat.opt.home_dir+"/getLastMessage.php",
         type: "POST",
         data:"user_id_to="+StarCometChat.interlocutor_id+"&page="+page+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
         success: function(data)
@@ -964,7 +968,7 @@ StarCometChat.openDialog = function(user_id)
     $(".StarCometChat-not-paid-alert").hide()
 
     jQuery.ajax({
-        url: hostUrl+"/getLastMessage.php",
+        url: StarCometChat.opt.home_dir+"/getLastMessage.php",
         type: "POST",
         data:"user_id_to="+user_id+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
         success: function(data)
@@ -1114,7 +1118,7 @@ StarCometChat.sendMessage = function()
 
     $('.StarCometChat-input-message-text').val('');
     jQuery.ajax({
-        url: hostUrl+"/sendMessage.php",
+        url: StarCometChat.opt.home_dir+"/sendMessage.php",
         type: "POST",
         data: fd,
         processData: false,

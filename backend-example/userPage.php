@@ -60,6 +60,7 @@ $(document).ready(function()
         user_id: user_id,
         user_key: user_key, 
         open:false,
+        home_dir: "http://comet-server.ru/doc/CometQL/Star.Comet-Chat",
         success:function()
         {
             var c = StarCometChat.countNewMessagesSum();
