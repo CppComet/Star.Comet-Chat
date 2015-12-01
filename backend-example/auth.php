@@ -16,7 +16,12 @@ $userId = (int)$_GET['id'];
 $_SESSION['userId'] = $userId;
 sendUserLoginInfo($userId);
 
-?>
+?><!DOCTYPE html>
+<html lang="ru" dir="ltr" class="no-js">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
 <h1>Авторизация прошла успешно <?php echo $userId; ?></h1>
 Список пользователей чата которым вы можете отправить сообщение:<br>
 <?php  
@@ -39,4 +44,5 @@ sendUserLoginInfo($userId);
         }
         echo "<br>"; 
     }while(true); 
-?>
+?></body>
+</html>

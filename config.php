@@ -45,9 +45,6 @@ $conf['home_dir'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat";
  */
 $conf['user_url_tpl'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name=";
 
-
-// @todo Перенести сюда все настроки которые надо будет менять пользователям в момент интеграции чата
-
 /**
  * Разрешает доступ только для запросов с доверенных ip адресов
  */
