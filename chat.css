@@ -1,4 +1,16 @@
- 
+<?php
+/**
+ * Apache License 2.0
+ * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
+ * Буду рад новым заказам на разработку чего ни будь.
+ *
+ * Levhav@ya.ru
+ * Skype:Levhav
+ * 89244269357
+ * 
+ * https://github.com/Levhav/Star.Comet-Chat
+ */
+
 /* Tiny Scrollbar */
 .StarCometChat-list-holder {   clear: both; width: 201px; margin: 0px; }
 .StarCometChat-list-holder .viewport { width: 201px; height: 527px; /* Высота левой части окна */ overflow: hidden; position: relative; }
