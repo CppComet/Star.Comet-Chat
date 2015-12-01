@@ -23,17 +23,20 @@ include './config.php';
     <a href="https://github.com/Levhav/Star.Comet-Chat">Исходные коды чата</a>
     
     
-    <h1>Войти в чат</h1>
-    <?php
-    
-    for($i =0; $i< 30; $i++)
-    {
-        echo '<a href="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/auth.php?id='.($i+1).'">Авторизоватся от пользователя '.($i+1).'</a>&nbsp;';
-        if($i%5 ==0)
+    <h1>Войти в чат от имени</h1>
+<?php 
+    $i=0;
+    do{
+        $i++;
+        $info = getUserInfoById($i);
+        if($info == null)
         {
-            echo "<br>";
+            break;
         }
-    }
-    ?>    
+        
+        echo $i.' - <a href="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/auth.php?id='.($i).'">'.$info['name'].'</a>'; 
+        echo "<br>"; 
+    }while(true); 
+?> 
 </body>
 </html>

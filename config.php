@@ -32,8 +32,7 @@ $conf['URL_getUsersHash'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/
  * URL для запроса информации о пользователях в json
  */
 $conf['URL_getUsersInfo'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_users.php'; 
-
-
+ 
 // @todo Перенести сюда все настроки которые надо будет менять пользователям в момент интеграции чата
 
 /**
