@@ -829,7 +829,7 @@ StarCometChat.getTimeString = function(unixTime)
 StarCometChat.getMessageHtml = function(message)
 {
     var text = message.message.replace(/\n/mg, "<br>")
-                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<img src='"+hostUrl+"/usersFile/$1'>")
+                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+hostUrl+"/usersFile/$1' target='_blank' ><img src='"+hostUrl+"/usersFile/$1'></a>")
 
 
     if(message.from_user_id && message.from_user_id == StarCometChat.interlocutor_id)
@@ -1067,7 +1067,7 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // не верный тип файла
         console.log("не верный тип файла " + event.target.files[0].type)
-        $(".StarCometChat-file-attachment").show().hml("Не верный тип файла")
+        $(".StarCometChat-file-attachment").hml("Не верный тип файла").animate({'opacity': 1})
         return;
     }
 
@@ -1076,11 +1076,11 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // файл слишком большой
         console.log("файл слишком большой " + event.target.files[0].size)
-        $(".StarCometChat-file-attachment").show().hml("Файл слишком большой")
+        $(".StarCometChat-file-attachment").hml("Файл слишком большой").animate({'opacity': 1})
         return;
     }
     StarCometChat.uploadFilesList = event.target.files[0]
-    $(".StarCometChat-file-attachment").show().hml("Файл прикреплён")
+    $(".StarCometChat-file-attachment").hml("Файл прикреплён").animate({'opacity': 1})
 }
 
 /**
@@ -1108,7 +1108,7 @@ StarCometChat.sendMessage = function()
         console.log("файл" , StarCometChat.uploadFilesList)
         fd.append('img', StarCometChat.uploadFilesList);
         StarCometChat.uploadFilesList = undefined; 
-        $(".StarCometChat-file-attachment").hide()
+        $(".StarCometChat-file-attachment").animate({'opacity': 0})
     }
 
     $('.StarCometChat-input-message-text').val('');

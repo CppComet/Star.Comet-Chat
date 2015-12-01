@@ -434,7 +434,7 @@
 
 .StarCometChat-message-text img{
     display: block;
-    /*max-width: 440px;*/
+    max-width: 440px;
 }
 
 .StarCometChat-message-time{
@@ -777,8 +777,8 @@
 
 .StarCometChat-file-attachment{
     display: inline-block;
-    color: #767F87;
-    display: none;
+    color: #767F87; 
+    opacity: 0;
 }
 
 @media screen and (max-device-width: 980px) 
