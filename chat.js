@@ -265,13 +265,7 @@ StarCometChat.init = function(options)
             $('.StarCometChat-top-btn-open-list').show()
         }
     })
-
-    /**
-     * Подключение к комет серверу. Для возможности принимать команды.
-     * dev_id ваш публичный идентифиукатор разработчика
-     */
-    CometServer().start({dev_id:15, user_key:StarCometChat.opt.user_key, user_id: StarCometChat.opt.user_id})
-
+ 
     var myInfo = function(data)
     {
         data = JSON.parse(data)

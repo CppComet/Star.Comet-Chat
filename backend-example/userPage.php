@@ -56,6 +56,13 @@ var user_key = "<?php echo getUserHash($_SESSION['userId']); ?>";
         
 $(document).ready(function()
 {
+    
+    /**
+     * Подключение к комет серверу. Для возможности принимать команды.
+     * dev_id ваш публичный идентифиукатор разработчика
+     */
+    CometServer().start({dev_id:15, user_key:user_id, user_id: user_key})
+     
     StarCometChat.init({
         user_id: user_id,
         user_key: user_key, 
