@@ -75,6 +75,11 @@ if(!is_array($selfInfo))
 
 $selfInfo["is_admin"] = in_array($user_id, app::conf()->admin_ids);  
 $selfInfo['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $selfInfo['login']);
+if(!isset($selfInfo['error']))
+{
+    $selfInfo['error'] = "";
+}
+
 mysqli_query(app::conf()->getDB(), "REPLACE into  `users` (`id`, `login`, `avatar_url`, `error` )VALUES('".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['user_id'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['login'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['avatar_url'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['error'])."')");
  
 

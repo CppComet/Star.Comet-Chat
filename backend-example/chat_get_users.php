@@ -7,7 +7,7 @@
 include './config.php';
 testIpOrDie();
  
-$uArr = split(",", $_POST["users"]);
+$uArr = explode(",", $_POST["users"]);
 
 $users = array();
  

@@ -178,7 +178,7 @@ StarCometChat.init = function(options)
                                     <ul class="StarCometChat-small-color" >\
                                         <li onclick="StarCometChat.sendAbuse()"><img src="'+hostUrl+'/img/pic4.png">Пожаловаться</li> \
                                         <li onclick="StarCometChat.toggleBlockUser()" class="toggle-block-user-btn"><img src="'+hostUrl+'/img/pic1.png"><span>Блокировать</span></li>\
-                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="/'+hostUrl+'/img/star.png"><span>Избранное</span></li> \
+                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="'+hostUrl+'/img/star.png"><span>Избранное</span></li> \
                                     </ul> \
                                 </div>\
                             </div>\

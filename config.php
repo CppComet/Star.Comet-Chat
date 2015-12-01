@@ -150,7 +150,7 @@ function getUsersInfo($arr)
         curl_setopt($curl, CURLOPT_USERAGENT,  $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "users=".$arr);
-        $out = curl_exec($curl);
+        $out = curl_exec($curl); 
         curl_close($curl);
         return json_decode($out, 'true');
     }
