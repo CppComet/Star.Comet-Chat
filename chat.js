@@ -201,21 +201,20 @@ StarCometChat.init = function(options)
                         <div class="StarCometChat-input-holder">\
                             <table style="width: 100%;">\
                                 <tr>\
-                                    <td class="StarCometChat-self-avatar-bottom">\
-                                        <img src="'+hostUrl+'/img/avata.png"  class="StarCometChat-userAvatar" >\
-                                    </td>\
                                     <td>\
-                                        <textarea placeholder="Сообщение" class="StarCometChat-input-text StarCometChat-input-message-text" onkeydown="StarCometChat.keydownSendMessage(event)"  ></textarea>\
+                                        <textarea class="StarCometChat-input-text StarCometChat-input-message-text" placeholder="Сообщение" onkeydown="StarCometChat.keydownSendMessage(event)"  ></textarea>\
+                                    </td>\
+                                    <td class="StarCometChat-input-btn-block" >\
+                                        <div onclick="StarCometChat.sendMessage()" title="Отправить Ctrl+Enter" >\
+                                            <img src="'+hostUrl+'/img/carousel_arrow_right.png">\
+                                        </div>\
                                         <div class="StarCometChat-input-file"> \
                                             <input type="file" onchange="StarCometChat.uploadFile(event)">\
                                         </div>\
                                     </td>\
-                                    <td class="StarCometChat-input-sendBtn">\
-                                        <div onclick="StarCometChat.sendMessage()" ><img src="'+hostUrl+'/img/carousel_arrow_right.png"></div>\
-                                    </td>\
                                 </tr>\
                             </table>\
-                            <div class="StarCometChat-send-text"  >Отправить ctrl+Enter</div>\
+                            <div class="StarCometChat-send-text"  >Отправить Ctrl+Enter</div>\
                             <div class="StarCometChat-file-attachment" >Прикреплён файл</div>\
                         </div>\
                     </td>\
@@ -905,6 +904,13 @@ StarCometChat.openDialog = function(user_id)
     console.log("StarCometChat.openDialog("+user_id+")")
     if(!user_id)
     {
+        // Открыть первый диалог в списке
+        user_id = StarCometChat.first_dialog;
+    }
+    
+    if(user_id == StarCometChat.opt.user_id)
+    {  
+        console.error("Не надо писать самому себе"); 
         // Открыть первый диалог в списке
         user_id = StarCometChat.first_dialog;
     }

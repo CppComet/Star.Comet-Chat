@@ -1,10 +1,10 @@
 <?php
  include './config.php';
 
- $userInfo = getUserInfoByLogin(preg_replace("#[^0-9A-z]#u", "", $_GET['login'])); 
+ $userInfo = getUserInfoByLogin(preg_replace("#[^0-9A-z]#u", "", $_GET['name'])); 
  if($userInfo == null)
  {
-     die("Пользователь ".preg_replace("#[^0-9A-z]#u", "", $_GET['login'])." не существует");
+     die("Пользователь ".preg_replace("#[^0-9A-z]#u", "", $_GET['name'])." не существует");
  }
 ?>
 <!DOCTYPE HTML>
@@ -30,6 +30,11 @@
     <title>Чат пользователь - <?php echo $userInfo['name']; ?></title>
 </head>
 <body>
+<style>
+pre{
+    word-wrap: break-word;
+}
+</style>
     <h1>Страница пользователя <?php echo $userInfo['name']; ?></h1>
     <button onclick="StarCometChat.openDialog(<?php echo $userInfo['user_id']; ?>);">Написать этому пользователю</button>
     <div id="newMsgIndicator"  onclick="StarCometChat.openDialog();"></div>

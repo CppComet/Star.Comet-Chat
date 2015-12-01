@@ -19,6 +19,12 @@ if($to_user_id <= 0)
     die("Не верный параметр user_id_to");
 }
 
+if($user_id == $to_user_id)
+{
+    die("Не надо писать самому себе");
+}
+
+
 $result = mysqli_query(app::conf()->getDB(), "SELECT * FROM `users` WHERE error = '' and id = ".$user_id);
 if(!mysqli_num_rows($result))
 {
@@ -115,8 +121,6 @@ mysqli_query(app::conf()->getDB(), "INSERT INTO `messages` (`id`, `from_user_id`
 $msg_id = mysqli_insert_id(app::conf()->getDB());
 $msg = array("id" => $msg_id, "message" => base64_encode($message), "from_user_id" => $user_id, "relation_type"=>$relation_type, "new_contact" => $NewContactInfo);
 echo json_encode(array("msg_id" => $msg_id, "message_text" => $message));
-
-
 
 $result = mysqli_query(app::conf()->getDB(),"SELECT id, login, avatar_url FROM `users` where id in(".$to_user_id.",".$user_id.")"); 
 $row = mysqli_fetch_assoc($result);

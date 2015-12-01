@@ -15,7 +15,7 @@ else
     // Выход пользователя 
     mysqli_query(app::conf()->getComet(), "DELETE FROM users_auth WHERE id = ".((int)$_GET['id'])); 
 }
-//echo "ok";
+echo "usersAuth-ok";
  
 
 

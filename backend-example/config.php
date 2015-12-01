@@ -69,11 +69,16 @@ function sendUserLoginInfo($user_id)
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id));
     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
     $output = curl_exec($ch);
     curl_close($ch);
-    echo "sendUserLoginInfo:<pre>";
-    var_dump($output);
-    echo "</pre>";
+    
+    if($output !="usersAuth-ok")
+    {
+        echo "<pre>Ошибка доступа к api:sendUserLoginInfo:\n";
+        var_dump($output);
+        echo "</pre>";
+    }
 }
 
 // Вызвать при выходе пользователя с сайта
@@ -82,11 +87,15 @@ function sendUserExitInfo($user_id)
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id));
     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
     $output = curl_exec($ch);
     curl_close($ch);
-    echo "sendUserExitInfo:<pre>";
-    var_dump($output);
-    echo "</pre>";
+    if($output !="usersAuth-ok")
+    {
+        echo "<pre>Ошибка доступа к api:sendUserExitInfo:\n";
+        var_dump($output);
+        echo "</pre>";
+    }
 }
 
 

@@ -344,18 +344,18 @@ else if(isset($_GET['query']) && $_GET['query'] == "getByAbuse")
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="<?php echo $url; ?>admin/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo $url; ?>admin/bootstrap/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="<?php echo $url; ?>/admin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo $url; ?>/admin/bootstrap/css/bootstrap-datetimepicker.css">
 
     <!-- Подключаем библиотеки -->
-    <script src="<?php echo $url; ?>CometServerApi2.js" type="text/javascript"></script>
-    <script src="<?php echo $url; ?>jquery.min.js"      type="text/javascript"></script>
-    <script src="<?php echo $url; ?>jquery.cookie.js"   type="text/javascript" ></script>
-    <script src="<?php echo $url; ?>moment.min.js"      type="text/javascript"></script>
+    <script src="http://comet-server.ru/CometServerApi.js" type="text/javascript"></script>
+    <script src="<?php echo $url; ?>/js/jquery.min.js"      type="text/javascript"></script>
+    <script src="<?php echo $url; ?>/js/jquery.cookie.js"   type="text/javascript" ></script>
+    <script src="<?php echo $url; ?>/js/moment.min.js"      type="text/javascript"></script>
 
-    <script src="<?php echo $url; ?>admin/bootstrap/js/bootstrap.min.js"></script>
-    <script src="<?php echo $url; ?>admin/bootstrap/js/moment-with-locales.js"></script>
-    <script src="<?php echo $url; ?>admin/bootstrap/js/bootstrap-datetimepicker.js"></script>
+    <script src="<?php echo $url; ?>/admin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<?php echo $url; ?>/admin/bootstrap/js/moment-with-locales.js"></script>
+    <script src="<?php echo $url; ?>/admin/bootstrap/js/bootstrap-datetimepicker.js"></script>
 
 </head>
 <body>
