@@ -17,17 +17,8 @@ include '../common.php';
 
 $admin_id = getAdminIdOrDie();
 $admin_key = getUserKeyOrDie();
-$url = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat";
-$userLink = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name=";
-
-/*
-
-Запрос конвертации списка сообщений
-TRUNCATE messages;
-insert into  messages SELECT id, senderId as from_user_id, recipientId as to_user_id, timeStamp as time, recipientRead as read_time, text as message FROM `ow_mailbox_message`;
-REPLACE into users_relations SELECT from_user_id as user_id, to_user_id, 0 as type FROM `messages` ;
-REPLACE into users_relations SELECT to_user_id as user_id, from_user_id as to_user_id, 0 as type FROM `messages` ;
-*/
+$url = getConfArray("home_dir");
+$userLink = getConfArray("user_url_tpl");
 
 
 function getByAbuse()

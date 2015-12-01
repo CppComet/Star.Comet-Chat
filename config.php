@@ -34,6 +34,18 @@ $conf['URL_getUsersHash'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/
  */
 $conf['URL_getUsersInfo'] = 'http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/chat_get_users.php'; 
  
+
+/**
+ * url адрес дирректории из которой работает чат
+ */
+$conf['home_dir'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat"; 
+
+/**
+ * Фрагмент url адреса страницы профиля пользователя
+ */
+$conf['user_url_tpl'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name=";
+
+
 // @todo Перенести сюда все настроки которые надо будет менять пользователям в момент интеграции чата
 
 /**
