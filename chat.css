@@ -32,9 +32,7 @@
 .StarCometChat-right-chat .thumb { background: #fffffd; height: 20px; width: 3px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: 3px; }
 .StarCometChat-right-chat .thumb .end { background: #fffffd; overflow: hidden; height: 5px; width: 9px; }
 .StarCometChat-right-chat .disable { display: none; }
- 
-
-
+  
 .StarCometChat-shadow-load
 {
     position: fixed;
@@ -792,12 +790,33 @@
     opacity: 0;
 }
 
+.StarCometChat-copyInfo{
+    display: inline-block;
+    float: right;
+    margin-right: 60px;
+}
+
+.StarCometChat-copyInfo a{
+    color:#ccd1d7;
+    text-decoration: none;
+}
+
+.StarCometChat-copyInfo a:hover{ 
+    color:#555;
+}
+ 
+@media screen and (max-device-width: 639px) 
+{
+    .StarCometChat-copyInfo{
+        display: none;
+    }
+}
+
 @media screen and (max-device-width: 980px) 
 {
     .StarCometChat-send-text{
         display: none;
     }
-    
     .StarCometChat-file-attachment{
          margin-left: 0px;
     }

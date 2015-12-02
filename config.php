@@ -45,6 +45,23 @@ $conf['home_dir'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat";
  */
 $conf['user_url_tpl'] = "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name=";
 
+
+/**
+ * Доступ к БД
+ */
+$conf['mysql_db'] = "StarCometChat";
+$conf['mysql_user'] = "StarCometChat";
+$conf['mysql_pw'] = "RLUJ4TXE22XL5JTh";
+$conf['mysql_host'] = "localhost"; 
+
+/**
+ * Доступ к комет серверу
+ * Получить ключи доступа можно здесь https://comet-server.ru/menu_id/10
+ */
+$conf['cometQL_dev_id'] = 15;
+$conf['cometQL_key'] = "lPXBFPqNg3f661JcegBY0N0dPXqUBdHXqj2cHf04PZgLHxT6z55e20ozojvMRvB8";
+
+
 /**
  * Разрешает доступ только для запросов с доверенных ip адресов
  */
@@ -117,7 +134,7 @@ class app
             /**
              * Доступ к БД
              */
-            $this->db = mysqli_connect("localhost", "StarCometChat", "RLUJ4TXE22XL5JTh", "StarCometChat");
+            $this->db = mysqli_connect(getConfArray('mysql_host'), getConfArray('mysql_user'), getConfArray('mysql_pw'), getConfArray('mysql_db'));
             if ( !$this->db ) die ("Невозможно подключение к MySQL");
 
             mysqli_query($this->db, "SET CHARACTER SET 'utf8'");
@@ -133,7 +150,7 @@ class app
             /**
              * Доступ к комет серверу
              */
-            $this->comet = mysqli_connect("app.comet-server.ru", "15", "lPXBFPqNg3f661JcegBY0N0dPXqUBdHXqj2cHf04PZgLHxT6z55e20ozojvMRvB8", "CometQL_v1");
+            $this->comet = mysqli_connect("app.comet-server.ru", getConfArray('cometQL_dev_id'), getConfArray('cometQL_key'), "CometQL_v1");
             if ( !$this->comet ) die ("Невозможно подключение к CometQL");
         }
 

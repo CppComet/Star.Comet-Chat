@@ -221,6 +221,14 @@ StarCometChat.init = function(options)
                             </table>\
                             <div class="StarCometChat-send-text"  >Отправить Ctrl+Enter</div>\
                             <div class="StarCometChat-file-attachment" >Прикреплён файл</div>\
+                            <div class="StarCometChat-copyInfo" >\
+                                <!-- Не удаляйте ссылку а если очень хочется удалить то перечислите хотя бы 2000 рублей на\n\
+                                     webmoney R161628751361 \n\
+                                     или на яндекс.деньги https://money.yandex.ru/to/410011754162524\n\
+                                     или на qiwi +79244269357 \n\
+                                 -->\
+                                <a href="http://comet-server.ru/wiki/doku.php/comet:star-comet-chat" target="_blank" >Чат работает на comet-server.ru</a>\
+                            </div>\
                         </div>\
                     </td>\
                 </tr>\
@@ -1142,7 +1150,8 @@ StarCometChat.keydownSendMessage = function(event)
 }
 
 /**
- * Обновляет скрол после того как догрузятся фотки  вставленные в нутрь сообщений
+ * Обновляет скрол после того как догрузятся фотки вставленные в нутрь сообщений
+ * @private
  */
 StarCometChat.bindUpdateScrollForImgLoad = function(scrollPosition)
 {

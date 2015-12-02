@@ -60,16 +60,27 @@ $(document).ready(function()
     /**
      * Подключение к комет серверу. Для возможности принимать команды.
      * dev_id ваш публичный идентифиукатор разработчика
+     * user_id идентификатор пользователя под которым вы вошли.
+     * user_key ваш хеш авторизации.
      */
-    CometServer().start({dev_id:15, user_key:user_id, user_id: user_key})
+    CometServer().start({dev_id:15, user_id:user_id, user_key: user_key})
      
+    /**
+     * Инициализируем модуль чата, происходит инициализация и загрузка данных необходимых для работы.
+     * Но окно чата этим вызовом не открывается.
+     */
     StarCometChat.init({
         user_id: user_id,
         user_key: user_key, 
         open:false,
+        
+        // Параметр home_dir содержит адрес расположения php скриптов чата
         home_dir: "http://comet-server.ru/doc/CometQL/Star.Comet-Chat",
+        
+        // Функция назначенная в success вызывается после успешной инициализации чата.
         success:function()
         {
+            // Вызов countNewMessagesSum возвращает количество новых сообщений. Работает корректно только после завершения инициализации чата
             var c = StarCometChat.countNewMessagesSum();
             if(c > 0)
             {
