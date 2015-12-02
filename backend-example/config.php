@@ -14,6 +14,10 @@
 ini_set('display_errors','on');
 error_reporting(E_ALL);
 
+/**
+ * ip адрес с которого разрешено вызывать api методы управления чатом
+ * Или false если ограничение отключено (не безопасно)
+ */
 $trusted_ip = false;
 
 session_start();
@@ -31,6 +35,10 @@ function testIpOrDie()
 }
 
 
+/**
+ * Функция возвращает массив с информацией о пользователе по его идентификатору
+ * Обычно информация о пользователях хранится в бд, но здесь для примера в целях упрощения кода информация захардкодена в виде массива
+ */
 function getUserInfoById($id)
 {
     $users[] = array();
@@ -49,6 +57,10 @@ function getUserInfoById($id)
     return null;
 }
 
+/**
+ * Функция возвращает массив с информацией о пользователе по его лигину
+ * Обычно информация о пользователях хранится в бд, но здесь для примера в целях упрощения кода информация захардкодена в виде массива
+ */
 function getUserInfoByLogin($login)
 {
     $id=0;
@@ -67,10 +79,12 @@ function getUserInfoByLogin($login)
     }while(true); 
 }
 
-
+/**
+ * Возвращает строку хеша авторизации для пользователя по его идентификатору 
+ */
 function getUserHash($user_id)
 {
-    $salt = $user_id."bgDf5gfDF4VD5bBFg7f8".date("z").getUserInfoById($user_id)['age'].getUserInfoById($user_id)['city'].getUserInfoById($user_id)['login'];       // Соль для генерации хешей авторизации
+    $salt = $user_id."bgDf5gfDF4VD5bBFg7f8".date("z").getUserInfoById($user_id)['age'].getUserInfoById($user_id)['city'].getUserInfoById($user_id)['login'];
     return md5($salt.md5($salt));
 }
 
