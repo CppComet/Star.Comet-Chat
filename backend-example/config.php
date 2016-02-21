@@ -28,9 +28,9 @@ session_start();
 function testIpOrDie()
 {
     global $trusted_ip;
-    if ( $trusted_ip != false && $_SERVER['HTTP_X_REAL_IP'] != getConfArray("trusted_ip"))
+    if ( $trusted_ip !== false && $_SERVER['REMOTE_ADDR'] != getConfArray("trusted_ip"))
     {
-        die("Нет доступа с ip ".$_SERVER['HTTP_X_REAL_IP']);
+        die("Нет доступа с ip ".$_SERVER['REMOTE_ADDR']);
     }
 }
 
@@ -101,6 +101,7 @@ function sendUserLoginInfo($user_id)
     if($output !="usersAuth-ok")
     {
         echo "<pre>Ошибка доступа к api:sendUserLoginInfo:\n";
+        echo "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id)."\n"; 
         var_dump($output);
         echo "</pre>";
     }

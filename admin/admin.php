@@ -20,15 +20,31 @@ $admin_key = getUserKeyOrDie();
 $url = getConfArray("home_dir");
 $userLink = getConfArray("user_url_tpl");
 
+$avatarUrl = getConfArray("user_avatar_url_tpl");
+
+
+
+if(isset($_POST['query']) && $_POST['query'] == "removeMessage")
+{
+    removeMessage();
+}
+
+function removeMessage()
+{ 
+    $msg_id = (int)$_POST['messageId'];
+    mysqli_query(StarCometChat::conf()->getDB(),"DELETE FROM `messages` WHERE `id` = ".$msg_id);
+    echo json_encode(array("success" => true));
+    exit;
+}
 
 function getByAbuse()
 {
-    global $url, $userLink;
+    global $url, $userLink, $avatarUrl;
     $startDate = (int)$_GET['startDate'];
     $endDate = (int)$_GET['endDate'];
 
     //  id user_id_from user_id_to time
-    $result = mysqli_query(app::conf()->getDB(), "SELECT abuse.id, abuse.user_id_from, abuse.user_id_to, abuse.time,
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT abuse.id, abuse.user_id_from, abuse.user_id_to, abuse.time,
                                                          (select login from users where id = abuse.user_id_from ) as from_user_login,
                                                          (select login from users where id = abuse.user_id_to ) as to_user_login,
                                                          (select avatar_url from users where id = abuse.user_id_from ) as from_user_avatar,
@@ -46,17 +62,17 @@ function getByAbuse()
         {
             $NewContactInfo = getUsersInfo(array($row['from_user_id']));
             $NewContactInfo[0]['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $NewContactInfo[0]['login']);
-            mysqli_query(app::conf()->getDB(),
+            mysqli_query(StarCometChat::conf()->getDB(),
                     "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$NewContactInfo[0]['user_id']."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
         }
         
         echo "<div class='line' >"
                 . "<div class='message-date' >".date("d-m-Y H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
-                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
                 . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['user_id_from']."&user_id2=".$row['user_id_to']."' target='_blank' >Диалог</a></div>"
             . "</div>";
@@ -67,7 +83,7 @@ function getByAbuse()
 
 function getByDate()
 {
-    global $url, $userLink;
+    global $url, $userLink, $avatarUrl;
     $startDate = (int)$_GET['startDate'];
     $endDate = (int)$_GET['endDate'];
     $hasAttachments = (int)$_GET['hasAttachments'];
@@ -80,7 +96,7 @@ function getByDate()
         $hasAttachments = "";
     }
 
-    $result = mysqli_query(app::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
                                                          (select login from users where id = msg.from_user_id ) as from_user_login,
                                                          (select login from users where id = msg.to_user_id ) as to_user_login,
                                                          (select avatar_url from users where id = msg.from_user_id ) as from_user_avatar,
@@ -94,20 +110,21 @@ function getByDate()
         {
             $NewContactInfo = getUsersInfo(array($row['from_user_id']));
             $NewContactInfo[0]['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $NewContactInfo[0]['login']);
-            mysqli_query(app::conf()->getDB(),
+            mysqli_query(StarCometChat::conf()->getDB(),
                     "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$NewContactInfo[0]['user_id']."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
         }
         
-        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".$url."/usersFile/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
-        echo "<div class='line' >"
+        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".getConfArray("host_name")."/".getConfArray('file_dir')."/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
+        echo "<div class='line' id='msgId-".$row['id']."' >"
                 . "<div class='message-date' >".date("d-m-Y  H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
-                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
                 . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -116,8 +133,8 @@ function getByDate()
 
 function getByDateToday()
 {
-    global $url, $userLink;
-    $result = mysqli_query(app::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
+    global $url, $userLink, $avatarUrl;
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
                                                          (select login from users where id = msg.from_user_id ) as from_user_login,
                                                          (select login from users where id = msg.to_user_id ) as to_user_login,
                                                          (select avatar_url from users where id = msg.from_user_id ) as from_user_avatar,
@@ -134,26 +151,27 @@ function getByDateToday()
             if(isset($NewContactInfo[0]))
             { 
                 $NewContactInfo[0]['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $NewContactInfo[0]['login']);
-                mysqli_query(app::conf()->getDB(),
+                mysqli_query(StarCometChat::conf()->getDB(),
                     "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$NewContactInfo[0]['user_id']."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
-                                                mysqli_real_escape_string(app::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['login'])."', '".
+                                                mysqli_real_escape_string(StarCometChat::conf()->getDB(),$NewContactInfo[0]['avatar_url'])."');");
             }
             else
             {
-                mysqli_query(app::conf()->getDB(), 
+                mysqli_query(StarCometChat::conf()->getDB(), 
                     "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$row['from_user_id']."', 'Удалён', '".$url."/img/avata.png');");
             }
         }
         
-        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".$url."/usersFile/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
-        echo "<div class='line' >"
+        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".getConfArray("host_name")."/".getConfArray('file_dir')."/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
+        echo "<div class='line' id='msgId-".$row['id']."' >"
                 . "<div class='message-date' >".date("d-m-Y H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
-                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
                 . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -161,7 +179,7 @@ function getByDateToday()
 
 function getByLogin()
 {
-    global $url, $userLink;
+    global $url, $userLink, $avatarUrl;
     $startDate = (int)$_GET['startDate'];
     $endDate = (int)$_GET['endDate'];
     $andTime = "";
@@ -169,14 +187,14 @@ function getByLogin()
     {
         $andTime = " and time > ".$startDate." and time < ".$endDate." ";
     }
-    $login = mysqli_real_escape_string(app::conf()->getDB(),trim($_GET['login']));
+    $login = mysqli_real_escape_string(StarCometChat::conf()->getDB(),trim($_GET['login']));
     
     
-    $result = mysqli_query(app::conf()->getDB(), "select avatar_url from users where login = '".$login."'");
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "select avatar_url from users where login = '".$login."'");
     $row = mysqli_fetch_assoc($result);
     $avatar_url = $row['avatar_url'];
 
-    $result = mysqli_query(app::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT msg.id, msg.from_user_id, msg.to_user_id, msg.time, msg.message,
                                                          (select login from users where id = msg.to_user_id ) as to_user_login,
                                                          (select avatar_url from users where id = msg.to_user_id ) as to_user_avatar
                                                   FROM `messages` as msg
@@ -185,14 +203,15 @@ function getByLogin()
 
     while($row = mysqli_fetch_assoc($result))
     {
-        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".$url."/usersFile/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
-        echo "<div class='line' >"
+        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".getConfArray("host_name")."/".getConfArray('file_dir')."/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
+        echo "<div class='line' id='msgId-".$row['id']."' >"
                 . "<div class='message-date' >".date("d-m-Y H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$login."' target='_blank'><img src='".$avatar_url."' title='Отправитель ".$login."' /></a>" 
-                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$row['to_user_avatar']."' title='Получатель ".$row['to_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$login."' target='_blank'><img src='".$avatarUrl.$avatar_url."' title='Отправитель ".$login."' /></a>" 
+                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='Получатель ".$row['to_user_login']."' /></a>"
                 ."</div>"
                 . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -202,7 +221,7 @@ function countMsgByTime($time)
 {  
 // select sum(countMsg.one) from (SELECT 1 as one FROM `messages` where time > 1444824799 - 3600*24  group by from_user_id, to_user_id) as countMsg
 // SELECT count(*) as countMsg FROM `messages` where time >  1444824799 - 3600*24
-    $result = mysqli_query(app::conf()->getDB(), "select sum(countMsg.one) as countDlg from (SELECT 1 as one FROM `messages` where time > ".((int)$time."  group by from_user_id, to_user_id) as countMsg"));
+    $result = mysqli_query(StarCometChat::conf()->getDB(), "select sum(countMsg.one) as countDlg from (SELECT 1 as one FROM `messages` where time > ".((int)$time."  group by from_user_id, to_user_id) as countMsg"));
     $row = mysqli_fetch_assoc($result);
     return $row["countDlg"];
 }
@@ -212,7 +231,7 @@ function countMsgByTime($time)
 
 function getDialogByUsersId()
 {
-    global $url, $userLink;
+    global $url, $userLink, $avatarUrl;
     if(!isset($_GET['startDate']) )
     {
         $_GET['startDate'] = 0;
@@ -240,7 +259,7 @@ function getDialogByUsersId()
     $user_avatar1 = "";
     $user_avatar2 = "";
 
-    $result = mysqli_query(app::conf()->getDB(),"SELECT id, login, avatar_url FROM `users` where id in(".$user_id1.",".$user_id2.")");
+    $result = mysqli_query(StarCometChat::conf()->getDB(),"SELECT id, login, avatar_url FROM `users` where id in(".$user_id1.",".$user_id2.")");
     $row = mysqli_fetch_assoc($result);
     if($row['id'] == $user_id1)
     {
@@ -266,7 +285,7 @@ function getDialogByUsersId()
     }
 
 
-    $result = mysqli_query(app::conf()->getDB(),
+    $result = mysqli_query(StarCometChat::conf()->getDB(),
             "SELECT id, from_user_id, to_user_id, read_time, time, message FROM `messages` "
             . " where (from_user_id = ".$user_id1." and to_user_id = ".$user_id2.") or (to_user_id = ".$user_id1." and from_user_id = ".$user_id2.") ".$andTime
             . " order by time desc limit 300");
@@ -290,14 +309,15 @@ function getDialogByUsersId()
             $to_user_avatar = $user_avatar1;
         }
 
-        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".$url."/usersFile/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
-        echo "<div class='line' >"
+        $row['message'] = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "<img src='".getConfArray("host_name")."/".getConfArray('file_dir')."/$1'>", preg_replace("/\n/usi", "<br>", $row['message']));
+        echo "<div class='line' id='msgId-".$row['id']."' >"
                 . "<div class='message-date' >".date("d-m-Y H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$from_user."' target='_blank'><img src='".$from_user_avatar."' title='".$from_user."' /></a>"
-                    ."<a href='".$userLink."".$to_user."' target='_blank'><img src='".$to_user_avatar."' title='".$to_user."' /></a>"
+                    ."<a href='".$userLink."".$from_user."' target='_blank'><img src='".$avatarUrl.$from_user_avatar."' title='".$from_user."' /></a>"
+                    ."<a href='".$userLink."".$to_user."' target='_blank'><img src='".$avatarUrl.$to_user_avatar."' title='".$to_user."' /></a>"
                 ."</div>"
                 . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank'>Диалог</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -422,6 +442,11 @@ body {
 }
 
 .dialogLink{
+    display: table-cell;
+    width: 50px;
+}
+
+.removeLink{
     display: table-cell;
     width: 50px;
 }
@@ -647,7 +672,7 @@ $(function ()
             msgt = event
             event.data.message = CometServer().Base64.decode(event.data.message)
             event.data.message = decodeURIComponent(event.data.message)
-            event.data.message = event.data.message.replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<img src='<?php echo $url ?>/usersFile/$1'>").replace(/\n/mg, "<br>");
+            event.data.message = event.data.message.replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<img src='<?php echo getConfArray("host_name")."/".getConfArray('file_dir') ?>/$1'>").replace(/\n/mg, "<br>");
               
             var html = "";
                 html += "<div class='message-date' >"+moment().format("DD-MM-YYYY HH:mm")+"</div>"
@@ -736,6 +761,33 @@ function getByLogin()
     }
      
     window.location.replace(baseUrl+"admin/admin.php?login="+login+"&query=getByLogin&startDate="+startDate+"&endDate="+endDate);
+}
+
+
+function removeMessage(messageId)
+{
+    if(!confirm("Удалить сообщение?"))
+    {
+        return;
+    }
+    
+    $("#msgId-"+messageId).animate({"opacity":0});
+
+    $.ajax({
+        url: baseUrl+"admin/admin.php",
+        type: 'POST',
+        dataType:'json',
+        data:"messageId="+encodeURIComponent(messageId)+"&query=removeMessage",
+        success: function (response)
+        {
+            $("#msgId-"+messageId).animate({"opacity":0}).hide();
+            
+        },
+        error:function()
+        {
+            alert("ajax error");
+        }
+    });
 }
 </script>
 

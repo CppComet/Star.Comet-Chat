@@ -75,8 +75,14 @@ $(document).ready(function()
         open:false,
         
         // Параметр home_dir содержит адрес расположения php скриптов чата
-        home_dir: "http://comet-server.ru/doc/CometQL/Star.Comet-Chat",
-        
+        home_dir: "//comet-server.ru/doc/CometQL/Star.Comet-Chat",
+
+        // Параметр home_dir содержит адрес расположения php скриптов чата 
+        user_url_tpl:"//comet-server.ru/user/",
+        user_avatar_url_tpl: "",
+        // Настройка списка выриантов перевода сообщений
+        langs: [{name:'ru', textName:['Русский']}, {name:'en', textName:['Английский']}, {name:'uk', textName:['Украинский']}],
+            
         // Функция назначенная в success вызывается после успешной инициализации чата.
         success:function()
         {

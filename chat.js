@@ -26,8 +26,37 @@ StarCometChat.opt = {};
 
 /**
  * Адрес чата
+ * Параметр home_dir содержит адрес расположения php скриптов чата
  */
 StarCometChat.opt.home_dir = undefined; 
+
+/**
+ * Путь к папке с фотками отправлеными в чат 
+ * @type String
+ */
+StarCometChat.opt.file_dir = "chatFiles"; 
+ 
+/**
+ * Часть пути к разделу с пользователями
+ * @type String
+ * Например http://comet-server.ru/user/
+ * И к этому потом будет добавлен логин пользователя
+ */
+StarCometChat.opt.user_url_tpl = "//"+window.location.host+"/"; 
+
+/**
+ * callback функция вызываемая при закрытии окна чата.
+ * @type function
+ */
+StarCometChat.opt.onCloseChat = undefined
+
+/**
+ * Часть пути к аватаркам
+ * @type String
+ * Например http://comet-server.ru/avatar/
+ * И к этому потом будет добавлен логин пользователя
+ */
+StarCometChat.opt.user_avatar_url_tpl = "//"+window.location.host+"/"; 
 
 /**
  * Использование звуковых уведомлений
@@ -83,6 +112,13 @@ StarCometChat.initProgress = false;
 
 StarCometChat.first_dialog = -2
 
+/**
+ * Список предлагаемых вариантов перевода 
+ * @type Array
+ * @link https://tech.yandex.ru/translate/doc/dg/concepts/langs-docpage/ Список поддерживаемых языков
+ */
+StarCometChat.opt.langs = [{name:'ru', textName:['Русский']}, {name:'en', textName:['Английский']}]
+    
 /**
  * Инициализация чата
  * options:{
@@ -239,8 +275,17 @@ StarCometChat.init = function(options)
 
     $("body").append("<div class='StarCometChat-shadow'></div>")
              .append("<div class='StarCometChat-shadow-load'></div>")
-             .append("<div class='StarCometChat' style='display: none;'><div class='StarCometChat-center-chat-style' >"+html+"</div></div>") // StarCometChat-left-chat-style
-   
+             .append("<div class='StarCometChat' style='display: none;' onclick='if(arguments[0].target == this) StarCometChat.closeChat();' >\
+                        <div class='StarCometChat-center-chat-style'>"+html+"</div>\
+                     </div>");
+    
+    // Для убирания выподающих списков переводчика
+    $(document).click(function() 
+    {
+            // all dropdowns
+            $('.StarCometChat-wrapper-dropdown').removeClass('StarCometChat-wrapper-active');
+    });
+    
     if(StarCometChat.opt.open)
     { 
         $(".StarCometChat-shadow").show();
@@ -296,7 +341,7 @@ StarCometChat.init = function(options)
         StarCometChat.opt.data = data;
         console.log(data)
         $('.StarCometChat-userName').html(data.myInfo.name)
-        $('.StarCometChat-userAvatar').attr('src', data.myInfo.avatar_url);
+        $('.StarCometChat-userAvatar').attr('src', StarCometChat.opt.user_avatar_url_tpl+data.myInfo.avatar_url);
 
         if(data.myInfo.is_admin)
         {
@@ -385,10 +430,12 @@ StarCometChat.init = function(options)
     // Обработка входящих сообщений
     CometServer().subscription("msg.newMessage", function(event)
     {
+        console.log("Сообщение newMessage");
         event.data.message = CometServer().Base64.decode(event.data.message);
         
         if(StarCometChat.interlocutor_id == event.data.from_user_id)
         {
+            console.log("Сообщение доставлено в открытый диалог.");
             // Сообщение доставлено в открытый диалог.
             var dateTex = new Date();
             var html = StarCometChat.getMessageHtml({id:event.data.id, message:event.data.message, time:dateTex.getTime(), from_user_id:event.data.from_user_id})
@@ -409,19 +456,19 @@ StarCometChat.init = function(options)
                 }
             });
         }
-        else if(event.data.new_contact !== false && !StarCometChat.opt.data.contacts[event.data.from_user_id])
+        else if(event.data.new_contact != false && !StarCometChat.opt.data.contacts[event.data.from_user_id])
         {
-        console.log(event.data)
+            console.log("Это первое сообщение в диалоге", event.data)
             // Это первое сообщение в диалоге
             StarCometChat.opt.data.contacts[event.data.from_user_id] = {
                 relation_type:0,
-                user_id:event.data.from_user_id,
                 last_online_time:0,
                 newMessages:1,
-                avatar_url:event.data.new_contact.avatar_url,
-                name:event.data.new_contact.name,
-                age:event.data.new_contact.age,
-                city:event.data.new_contact.city
+            }
+            
+            for(var key in event.data.new_contact)
+            {
+                StarCometChat.opt.data.contacts[event.data.from_user_id][key] = event.data.new_contact[key];
             }
 
             var html = StarCometChat.getContactHtml(StarCometChat.opt.data.contacts[event.data.from_user_id])
@@ -434,10 +481,11 @@ StarCometChat.init = function(options)
         {
             // @todo Когда приходит сообщение контакт должен поднятся в списке контактов на верх.
             // Сообщение доставлено но не прочитано.
+            console.log("Сообщение доставлено но не прочитано.", event.data)
             StarCometChat.incrementNewMessage(event.data.from_user_id)
         }
 
-        if(StarCometChat.opt.useSsound) $(".StarCometChat-msg-audio")[0].play();
+        /*if(StarCometChat.opt.useSsound)*/ $(".StarCometChat-msg-audio")[0].play();
     })
 
     // Обработка сообщений о том что кто то прочитал наше сообщение
@@ -450,7 +498,7 @@ StarCometChat.init = function(options)
         }
     })
 }
-
+ 
 /**
  * Переключает состояние между "Использовать звук" и "не использовать"
  * @private
@@ -502,6 +550,11 @@ StarCometChat.closeChat = function()
     $(".StarCometChat-shadow").hide();
     $(".StarCometChat-shadow-load").hide();
     $('.StarCometChat').hide();
+    
+    if(StarCometChat.opt.onCloseChat)
+    {
+        StarCometChat.opt.onCloseChat()
+    }
 }
 
 /**
@@ -619,7 +672,7 @@ StarCometChat.toggleBlockUser = function()
             if(data.error)
             {
                 setTimeout(function(){
-                    //alert(data.error)
+                    alert(data.error)
                     StarCometChat.toggleBlockUser()
                 }, 500)
             }
@@ -757,14 +810,25 @@ StarCometChat.getContactHtml = function(contact)
         online = "StarCometChat-online-user";
     }
 
+    var info = [];
+    if(contact.age > 0)
+    {
+        info.push(contact.age+' лет');
+    }
+    
+    if(contact.city && contact.city.length > 0)
+    {
+        info.push(contact.city);
+    }
+    
     return '<div class="StarCometChat-list StarCometChat-'+relation_types[contact.relation_type]+'-user StarCometChat-userId-'+contact.user_id+' '+online+'"  onclick="StarCometChat.openDialog('+contact.user_id+')" >\
         <div class="StarCometChat-count-message" style="'+showNewMessages+'" >'+newMessages+'</div>\
         <div class="StarCometChat-list-avatar">\
             <div class="StarCometChat-statusTo StarCometChat-statusTo-point"></div>\
-            <img src="'+contact.avatar_url+'">\
+            <img src="'+StarCometChat.opt.user_avatar_url_tpl+contact.avatar_url+'">\
         </div>\
         <div>'+contact.name+'</div>\
-        <div>'+contact.age+' лет | '+contact.city+'</div>\
+        <div>'+info.join(" | ")+'</div>\
     </div>'
 }
 
@@ -830,25 +894,58 @@ StarCometChat.getTimeString = function(unixTime)
     return m.format("DD-MM-YYYY HH:mm")
 }
 
+
+StarCometChat.translateMessage = function(message_id, language)
+{
+    jQuery.ajax({
+        url: StarCometChat.opt.home_dir+"/translateMessage.php",
+        type: "POST",
+        data:"message_id="+message_id+"&language="+language+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
+        success: function(data)
+        {
+            var data = JSON.parse(data)
+            $(".StarCometChat-messge-"+message_id+" .StarCometChat-message-text")
+                    .append("<div class='StarCometChat-message-translate StarCometChat-message-lang-"+language+"' >" + data.text
+                    + '<div class="StarCometChat-Ylogo" ><a href="http://translate.yandex.ru/">Переведено «Яндекс.Переводчиком</a></div></div>');
+            $('.StarCometChat-right-chat').data("plugin_tinyscrollbar").update("relative");
+        }
+    });
+}
+
 /**
  * @private
  */
 StarCometChat.getMessageHtml = function(message)
 {
     var text = message.message.replace(/\n/mg, "<br>")
-                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+StarCometChat.opt.home_dir+"/usersFile/$1' target='_blank' ><img src='"+StarCometChat.opt.home_dir+"/usersFile/$1'></a>")
+                              .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+StarCometChat.opt.file_dir+"/$1' target='_blank' ><img src='"+StarCometChat.opt.file_dir+"/$1'></a>")
 
+    if(message.id > 0)
+    {
+        var langHtml = "";
+        for(var i in StarCometChat.opt.langs)
+        {
+            langHtml += "<li><a href='#' onclick=\"$(this).hide(); StarCometChat.translateMessage("+message.id+", '"+StarCometChat.opt.langs[i].name+"'); return false;\" >"+StarCometChat.opt.langs[i].textName+"</a></li>";
+        }
 
+        var langHtml =  '<div id="StarCometChat-translate-button-'+message.id+'" class="StarCometChat-wrapper-dropdown" tabindex="1" onclick="$(this).toggleClass(\'StarCometChat-wrapper-active\'); event.stopPropagation();">\
+                            <span title="translate" >Tr</span>\
+                            <ul class="StarCometChat-dropdown">' + langHtml + '</ul>\
+                        </div>';
+    }
     if(message.from_user_id && message.from_user_id == StarCometChat.interlocutor_id)
     {
         return '<div class="StarCometChat-messge StarCometChat-messge-'+message.id+'">\
-                    <img src="'+StarCometChat.getUserInfo(StarCometChat.interlocutor_id).avatar_url+'" class="StarCometChat-message-avatar" >\
+                    <img src="'+StarCometChat.opt.user_avatar_url_tpl+StarCometChat.getUserInfo(StarCometChat.interlocutor_id).avatar_url+'" class="StarCometChat-message-avatar" >\
                     <div>\
                         <div class="StarCometChat-message-pic-left"></div>\
-                        <div class="StarCometChat-message-text">'+text+'</div>\
+                        <div class="StarCometChat-message-text">\
+                            <div class="StarCometChat-message-original" >'+text+'</div>\
+                        </div>\
                         <div class="StarCometChat-message-time" data-time="'+message.time+'">'+StarCometChat.getTimeString(message.time)+'</div>\
+                        '+langHtml+'\
                     </div>\
-                </div>'
+                </div>';
     }
     else
     {
@@ -857,13 +954,15 @@ StarCometChat.getMessageHtml = function(message)
         {
             isRead = "StarCometChat-message-read";
         }
-
+        
+        
         return  '<div class="StarCometChat-messge-my StarCometChat-messge-'+message.id+'">\
+                    '+langHtml+'\
                     <div class="StarCometChat-message-is-read '+isRead+'" ></div>\
                     <div class="StarCometChat-message-time uptodate" data-time="'+message.time+'">'+StarCometChat.getTimeString(message.time)+'</div>\
                     <div class="StarCometChat-message-text">'+text+'</div>\
                     <div class="StarCometChat-message-pic-right"></div>\
-                </div>'
+                </div>'//+langHtml;
     }
 }
 
@@ -875,6 +974,11 @@ StarCometChat.openDialogPage = function(page)
 {
     $('.StarCometChat-loadLastPage').hide();
 
+    if(StarCometChat.interlocutor_id < 0)
+    {
+        return;
+    }
+    
     jQuery.ajax({
         url: StarCometChat.opt.home_dir+"/getLastMessage.php",
         type: "POST",
@@ -969,6 +1073,11 @@ StarCometChat.openDialog = function(user_id)
     }
     $(".StarCometChat-not-paid-alert").hide()
 
+    if(StarCometChat.interlocutor_id < 0)
+    {
+        return;
+    }
+    
     jQuery.ajax({
         url: StarCometChat.opt.home_dir+"/getLastMessage.php",
         type: "POST",
@@ -979,22 +1088,20 @@ StarCometChat.openDialog = function(user_id)
             var data = JSON.parse(data)
             console.log(data)
 
-            if(data.new_contact !== false && !StarCometChat.opt.data.contacts[data.new_contact.user_id] )
+            if(data.new_contact !== false && !StarCometChat.opt.data.contacts[user_id] )
             {
                 // Человек ещё не в списке контактов
-                var contact = {
-                    relation_type:0,
-                    user_id:user_id,
-                    last_online_time:data.last_online_time,
+                StarCometChat.opt.data.contacts[user_id] = {
+                    relation_type:0, 
                     newMessages:1,
-                    avatar_url:data.new_contact.avatar_url,
-                    name:data.new_contact.name,
-                    age:data.new_contact.age,
-                    city:data.new_contact.city
                 }
-
-                StarCometChat.opt.data.contacts[user_id] = contact
-                var html = StarCometChat.getContactHtml(contact)
+ 
+                for(var key in data.new_contact)
+                {
+                    StarCometChat.opt.data.contacts[user_id][key] = data.new_contact[key];
+                }
+ 
+                var html = StarCometChat.getContactHtml(StarCometChat.opt.data.contacts[user_id])
 
                 $('.StarCometChat-contact-list').html(html + $('.StarCometChat-contact-list').html());
                 StarCometChat.tabShowBase();
@@ -1011,8 +1118,8 @@ StarCometChat.openDialog = function(user_id)
             {
                 $(".toggle-block-user-btn span").html('Разблокировать')
             }
-            $(".StarCometChat-user-url-page").attr("href", StarCometChat.opt.data.contacts[user_id].login)
-            $(".StarCometChat-avatarTo").attr("src", StarCometChat.opt.data.contacts[user_id].avatar_url)
+            $(".StarCometChat-user-url-page").attr("href", StarCometChat.opt.user_url_tpl+StarCometChat.opt.data.contacts[user_id].login)
+            $(".StarCometChat-avatarTo").attr("src", StarCometChat.opt.user_avatar_url_tpl+StarCometChat.opt.data.contacts[user_id].avatar_url)
 
             var html = "";
             for(var i in data.history)
@@ -1074,7 +1181,7 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // не верный тип файла
         console.log("не верный тип файла " + event.target.files[0].type)
-        $(".StarCometChat-file-attachment").hml("Не верный тип файла").animate({'opacity': 1})
+        $(".StarCometChat-file-attachment").html("Не верный тип файла").animate({'opacity': 1})
         return;
     }
 
@@ -1083,11 +1190,11 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // файл слишком большой
         console.log("файл слишком большой " + event.target.files[0].size)
-        $(".StarCometChat-file-attachment").hml("Файл слишком большой").animate({'opacity': 1})
+        $(".StarCometChat-file-attachment").html("Файл слишком большой").animate({'opacity': 1})
         return;
     }
     StarCometChat.uploadFilesList = event.target.files[0]
-    $(".StarCometChat-file-attachment").hml("Файл прикреплён").animate({'opacity': 1})
+    $(".StarCometChat-file-attachment").html("Файл прикреплён").animate({'opacity': 1})
 }
 
 /**

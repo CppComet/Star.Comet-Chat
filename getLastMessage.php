@@ -10,7 +10,7 @@
  * 
  * https://github.com/Levhav/Star.Comet-Chat
  */
-
+ 
 include './config.php';
 include './common.php';
 $user_id_from = getUserIdOrDie();
@@ -27,23 +27,16 @@ else
 }
  
 $messages = array();
-
-
-$result = mysqli_query(app::conf()->getDB(), "SELECT * FROM `users` WHERE error = '' and id = ".$user_id_from);
-if(!mysqli_num_rows($result))
-{
-    die("Доступ запрещён. error not empty");
-}
-
+ 
 /**
  * Если не false то это первое сообщение в диалоге и переменная хранит информацию о пользователе
  */ 
 $NewContactInfo = false;
 
-$result = mysqli_query(app::conf()->getDB(), "SELECT id, from_user_id, to_user_id, read_time, time*1000 as time, message FROM `messages` where (from_user_id = ".$user_id_from." and to_user_id = ".$user_id_to.") or (to_user_id = ".$user_id_from." and from_user_id = ".$user_id_to.") order by time desc limit ".($page*app::conf()->page_size).", ".app::conf()->page_size);
-if(mysqli_errno(app::conf()->getDB()) != 0)
+$result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT id, from_user_id, to_user_id, read_time, time*1000 as time, message FROM `messages` where (from_user_id = ".$user_id_from." and to_user_id = ".$user_id_to.") or (to_user_id = ".$user_id_from." and from_user_id = ".$user_id_to.") order by time desc limit ".($page*StarCometChat::conf()->page_size).", ".StarCometChat::conf()->page_size);
+if(mysqli_errno(StarCometChat::conf()->getDB()) != 0)
 {
-    echo "Error code:".mysqli_errno(app::conf()->getDB())." ".mysqli_error(app::conf()->getDB())."";
+    echo "Error code:".mysqli_errno(StarCometChat::conf()->getDB())." ".mysqli_error(StarCometChat::conf()->getDB())."";
 }
 else if(mysqli_num_rows($result))
 {
@@ -61,7 +54,7 @@ else
 }
 
 // Получение статусов пользователей с комет сервера  
-$result = mysqli_query(app::conf()->getComet(), "SELECT time FROM users_time WHERE id = ".$user_id_to.""); 
+$result = mysqli_query(StarCometChat::conf()->getComet(), "SELECT time FROM users_time WHERE id = ".$user_id_to.""); 
 $row = mysqli_fetch_assoc($result);
 
 
