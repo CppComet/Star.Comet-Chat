@@ -28,9 +28,9 @@ session_start();
 function testIpOrDie()
 {
     global $trusted_ip;
-    if ( $trusted_ip != false && $_SERVER['HTTP_X_REAL_IP'] != getConfArray("trusted_ip"))
+    if ( $trusted_ip !== false && $_SERVER['REMOTE_ADDR'] != getConfArray("trusted_ip"))
     {
-        die("Нет доступа с ip ".$_SERVER['HTTP_X_REAL_IP']);
+        die("Нет доступа с ip ".$_SERVER['REMOTE_ADDR']);
     }
 }
 
@@ -42,12 +42,12 @@ function testIpOrDie()
 function getUserInfoById($id)
 {
     $users[] = array();
-    $users[] = array("user_id" => 1, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Виктор", "city" => "Москва", "age" => 24, "status" => "active", "login" => "lodin1", "error" => "", "status" => false);
-    $users[] = array("user_id" => 2, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Лена", "city" => "Владивосток", "age" => 24, "status" => "active", "login" => "lodin2");
-    $users[] = array("user_id" => 3, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avata.png", "name" => "Маша", "city" => "Владивосток", "age" => 0.9, "status" => "active", "login" => "lodin3");
-    $users[] = array("user_id" => 4, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avata2.png", "name" => "Михаил", "city" => "Москва", "age" => 30, "status" => "active", "login" => "lodin4");
-    $users[] = array("user_id" => 5, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Иван", "city" => "Хабаровск", "age" => 20, "status" => "active", "login" => "lodin5");
-    $users[] = array("user_id" => 6, "avatar_url" => "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Артём", "city" => "Артём", "age" => 12, "status" => "active", "login" => "lodin6");
+    $users[] = array("user_id" => 1, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Виктор", "city" => "Москва", "age" => 24, "status" => "active", "login" => "lodin1", "error" => "", "status" => false);
+    $users[] = array("user_id" => 2, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Лена", "city" => "Владивосток", "age" => 24, "status" => "active", "login" => "lodin2");
+    $users[] = array("user_id" => 3, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avata.png", "name" => "Маша", "city" => "Владивосток", "age" => 0.9, "status" => "active", "login" => "lodin3");
+    $users[] = array("user_id" => 4, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avata2.png", "name" => "Михаил", "city" => "Москва", "age" => 30, "status" => "active", "login" => "lodin4");
+    $users[] = array("user_id" => 5, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Иван", "city" => "Хабаровск", "age" => 20, "status" => "active", "login" => "lodin5");
+    $users[] = array("user_id" => 6, "avatar_url" => "https://comet-server.com/doc/CometQL/Star.Comet-Chat/img/avatar0.png", "name" => "Артём", "city" => "Артём", "age" => 12, "status" => "active", "login" => "lodin6");
 
     if(isset($users[(int)$id]))
     {
@@ -92,15 +92,17 @@ function getUserHash($user_id)
 function sendUserLoginInfo($user_id)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id));
+    curl_setopt($ch, CURLOPT_URL, "https://comet-server.com/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id));
     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $output = curl_exec($ch);
     curl_close($ch);
     
     if($output !="usersAuth-ok")
     {
         echo "<pre>Ошибка доступа к api:sendUserLoginInfo:\n";
+        echo "https://comet-server.com/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id)."\n"; 
         var_dump($output);
         echo "</pre>";
     }
@@ -110,9 +112,10 @@ function sendUserLoginInfo($user_id)
 function sendUserExitInfo($user_id)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://comet-server.ru/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id));
+    curl_setopt($ch, CURLOPT_URL, "https://comet-server.com/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id));
     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $output = curl_exec($ch);
     curl_close($ch);
     if($output !="usersAuth-ok")

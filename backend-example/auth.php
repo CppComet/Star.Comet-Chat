@@ -40,7 +40,7 @@ sendUserLoginInfo($userId);
         }
         else
         { 
-            echo $i.' - <a href="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name='.$info['login'].'">'.$info['name'].'</a>'; 
+            echo $i.' - <a href="https://comet-server.com/doc/CometQL/Star.Comet-Chat/backend-example/userPage.php?name='.$info['login'].'">'.$info['name'].'</a>'; 
         }
         echo "<br>"; 
     }while(true); 

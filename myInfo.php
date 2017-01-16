@@ -37,19 +37,26 @@ $qery = "select contacts.*, new_messages.count_new_msg as newMessages
             ) as new_messages  
             on contacts.to_user_id = new_messages.from_user_id";
 
-$result = mysqli_query(app::conf()->getDB(), $qery);
+$result = mysqli_query(StarCometChat::conf()->getDB(), $qery);
 
 
 
-if(mysqli_errno(app::conf()->getDB()) != 0)
+if(mysqli_errno(StarCometChat::conf()->getDB()) != 0)
 {
-    echo "Error code:".mysqli_errno(app::conf()->getDB())." ".mysqli_error(app::conf()->getDB())."";
+    echo "Error code:".mysqli_errno(StarCometChat::conf()->getDB())." ".mysqli_error(StarCometChat::conf()->getDB())."";
 }
 else if(mysqli_num_rows($result))
 {
+    $countContacts = 0;
     while($row = mysqli_fetch_assoc($result))
     {
-        $contacts[] = $row['to_user_id']; 
+        if($countContacts < 240)
+        {
+            // Ограничение не позволяющие запросить статусы online/offline больше чем у 240 последних контактов
+            $contacts[] = $row['to_user_id']; 
+            $countContacts++;
+        }
+        
         $contacts_type[$row['to_user_id']] = $row;
     }  
 } 
@@ -62,7 +69,7 @@ if($info === false || $info === NULL)
 }
 
 // Получение статусов пользователей с комет сервера  
-$result = mysqli_query(app::conf()->getComet(), "SELECT id, time FROM users_time WHERE id IN( ".join(",", $contacts).");"); 
+$result = mysqli_query(StarCometChat::conf()->getComet(), "SELECT id, time FROM users_time WHERE id IN( ".join(",", $contacts).");"); 
 while($row = mysqli_fetch_assoc($result))
 {
     $contacts_type[$row['id']]['last_online_time'] =  $row['time'];
@@ -84,14 +91,14 @@ if(!is_array($selfInfo))
     exit(); 
 }
 
-$selfInfo["is_admin"] = in_array($user_id, app::conf()->admin_ids);  
+$selfInfo["is_admin"] = in_array($user_id, StarCometChat::conf()->getAdminIds());  
 $selfInfo['login'] = preg_replace("/^.*?([^\/]*)$/usi", "$1", $selfInfo['login']);
 if(!isset($selfInfo['error']))
 {
     $selfInfo['error'] = "";
 }
 
-mysqli_query(app::conf()->getDB(), "REPLACE into  `users` (`id`, `login`, `avatar_url`, `error` )VALUES('".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['user_id'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['login'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['avatar_url'])."', '".  mysqli_real_escape_string(app::conf()->getDB(), $selfInfo['error'])."')");
+// mysqli_query(StarCometChat::conf()->getDB(), "REPLACE into  `users` (`id`, `login`, `avatar_url`, `error` )VALUES('".  mysqli_real_escape_string(StarCometChat::conf()->getDB(), $selfInfo['user_id'])."', '".  mysqli_real_escape_string(StarCometChat::conf()->getDB(), $selfInfo['login'])."', '".  mysqli_real_escape_string(StarCometChat::conf()->getDB(), $selfInfo['avatar_url'])."', '".  mysqli_real_escape_string(StarCometChat::conf()->getDB(), $selfInfo['error'])."')");
  
 
 echo json_encode(array("success"=>true, "contacts" => $resInfo, "myInfo" => $selfInfo));

@@ -41,7 +41,7 @@
     left: 0px;
     width: 100%;
     height: 100%;
-    background-image: url('//chat.lovelama.ru/chat/img/ajax-loader.gif');
+    background-image: url('/include/StarCometChat/img/ajax-loader.gif');
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: 150px;
@@ -83,7 +83,7 @@
 .StarCometChat-center-chat-style
 {
     position: relative;
-    top: 30px;
+    top: 70px;
     background-color: #fff;
     z-index: 30;
     box-shadow: 0 0 10px #222;
@@ -372,7 +372,7 @@
     max-height: 59px;
     width: 100%;
     
-    display: inline-table;
+    /*display: inline-table;*/
     position: relative;
     left: -15px;
 }
@@ -426,6 +426,18 @@
    word-wrap: break-word;
 }
 
+.StarCometChat-Ylogo{
+    padding-top: 0px;
+    font-size: 12px;
+    text-align: right;
+    font-style: oblique;
+}
+
+.StarCometChat-message-translate
+{
+    border-top: 1px solid #eee; 
+}
+
 @media screen and (max-device-width: 600px) 
 {
     .StarCometChat-messge .StarCometChat-message-text{
@@ -468,12 +480,12 @@
    display: inline-block;
    position: absolute;
    margin-top: 10px;
-   background-image: url('//chat.lovelama.ru/chat/img/pic-left.png');
+   background-image: url('/include/StarCometChat/img/pic-left.png');
 }
 
 .StarCometChat-message-pic-right{
    position: absolute;
-   background-image: url('//chat.lovelama.ru/chat/img/pic-right.png');
+   background-image: url('/include/StarCometChat/img/pic-right.png');
    margin-top: 8px;
    display: inline-block;
    height: 12px;
@@ -559,7 +571,7 @@
 
 .StarCometChat-count-message
 {
-   background-image: url('//chat.lovelama.ru/chat/img/msg-count.png');
+   background-image: url('/include/StarCometChat/img/msg-count.png');
    width: 27px;
    height: 25px;
    background-repeat: no-repeat;
@@ -627,12 +639,12 @@
    width: 20px;
    height: 18px;
    display: inline-block;
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line1.png');
+   background-image: url('/include/StarCometChat/img/pic-line1.png');
    cursor: pointer;
 }
 
 .StarCometChat-select .StarCometChat-pic1{
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line1-hover.png');
+   background-image: url('/include/StarCometChat/img/pic-line1-hover.png');
 }
 
 .StarCometChat-pic2{
@@ -640,12 +652,12 @@
    width: 20px;
    height: 18px;
    display: inline-block;
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line2.png');
+   background-image: url('/include/StarCometChat/img/pic-line2.png');
    cursor: pointer;
 }
 
 .StarCometChat-select .StarCometChat-pic2{
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line2-hover.png');
+   background-image: url('/include/StarCometChat/img/pic-line2-hover.png');
 }
 
 .StarCometChat-pic3{
@@ -653,22 +665,22 @@
    width: 20px;
    height: 18px;
    display: inline-block;
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line3.png');
+   background-image: url('/include/StarCometChat/img/pic-line3.png');
    cursor: pointer;
 }
 
 .StarCometChat-select .StarCometChat-pic3{
-   background-image: url('//chat.lovelama.ru/chat/img/pic-line3-hover.png');
+   background-image: url('/include/StarCometChat/img/pic-line3-hover.png');
 }
 
 .StarCometChat-loc-user{
-   background-image: url('//chat.lovelama.ru/chat/img/loc.png');
+   background-image: url('/include/StarCometChat/img/loc.png');
    background-repeat: no-repeat;
    background-position: 19px 19px;
 }
 
 .StarCometChat-input-file{
-   background-image: url('//chat.lovelama.ru/chat/img/add-file.png');
+   background-image: url('/include/StarCometChat/img/add-file.png');
    background-repeat: no-repeat;
    width: 25px;
    height: 29px; 
@@ -821,3 +833,151 @@
          margin-left: 0px;
     }
 }
+
+
+
+
+
+.StarCometChat-wrapper-dropdown {
+    /* Size and position */
+    position: relative;
+    width: 40px;
+    display: inline-block;
+    /*margin: 0 auto;
+    padding: 10px;*/
+    padding: 0px 5px;
+    text-align: left;
+
+    /* Styles */
+    /*background: #fff;
+    border-radius: 7px;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow: 0 1px 1px rgba(50,50,50,0.1);*/
+    cursor: pointer;
+    outline: none;
+
+    /* Font settings */
+    font-weight: bold;
+    color: #8AA8BD;
+}
+
+.StarCometChat-wrapper-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #8aa8bd transparent;
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown {
+  /* Size & position */
+    position: absolute;
+    width: 100px;
+    top: 100%;
+    left: -49px;
+    right: 0;
+    z-index: 10;
+
+    /* Styles */
+    background: white;
+    border-radius: inherit;
+    border: 1px solid rgba(0,0,0,0.17);
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    font-weight: normal;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    list-style: none;
+
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+    padding-left: 0px;
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;    
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown:before {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 13px;
+    border-width: 0 8px 8px 8px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.1) transparent;    
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #8aa8bd;
+    border-bottom: 1px solid #e6e8ea;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,1);
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown li i {
+    float: right;
+    color: inherit;
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown li:first-of-type a {
+    border-radius: 7px 7px 0 0;
+}
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown li:last-of-type a {
+    border: none;
+    border-radius: 0 0 7px 7px;
+}
+
+/* Hover state */
+
+.StarCometChat-wrapper-dropdown .StarCometChat-dropdown li:hover a {
+    background: #f3f8f8;
+}
+
+/* StarCometChat-wrapper-active state */
+
+.StarCometChat-wrapper-dropdown.StarCometChat-wrapper-active .StarCometChat-dropdown {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* No CSS3 support */
+
+.no-opacity       .StarCometChat-wrapper-dropdown .StarCometChat-dropdown,
+.no-pointerevents .StarCometChat-wrapper-dropdown .StarCometChat-dropdown {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .StarCometChat-wrapper-dropdown.StarCometChat-wrapper-active .StarCometChat-dropdown,
+.no-pointerevents .StarCometChat-wrapper-dropdown.StarCometChat-wrapper-active .StarCometChat-dropdown {
+    display: block;
+}
+

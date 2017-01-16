@@ -26,15 +26,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Подключаем библиотеки -->
-    <script src="http://comet-server.ru/CometServerApi.js" type="text/javascript"></script>  
+    <script src="https://comet-server.com/CometServerApi.js" type="text/javascript"></script>  
     
-    <script type="text/javascript" src="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/js/jquery.min.js"></script> 
-    <script type="text/javascript" src="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/js/jquery.cookie.js"></script>
-    <script type="text/javascript" src="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/js/moment.min.js"></script>
-    <script type="text/javascript" src="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/tinyscrollbar/jquery.tinyscrollbar.js"></script>
+    <script type="text/javascript" src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/js/jquery.min.js"></script> 
+    <script type="text/javascript" src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/js/moment.min.js"></script>
+    <script type="text/javascript" src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/tinyscrollbar/jquery.tinyscrollbar.js"></script>
     
-    <script type="text/javascript" src="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/chat.js"></script>
-    <link rel="stylesheet" href="http://comet-server.ru/doc/CometQL/Star.Comet-Chat/chat.css"> 
+    <script type="text/javascript" src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/chat.js"></script>
+    <link rel="stylesheet" href="https://comet-server.com/doc/CometQL/Star.Comet-Chat/chat.css"> 
 
 
 
@@ -75,8 +75,14 @@ $(document).ready(function()
         open:false,
         
         // Параметр home_dir содержит адрес расположения php скриптов чата
-        home_dir: "http://comet-server.ru/doc/CometQL/Star.Comet-Chat",
-        
+        home_dir: "//comet-server.com/doc/CometQL/Star.Comet-Chat",
+
+        // Параметр home_dir содержит адрес расположения php скриптов чата 
+        user_url_tpl:"//comet-server.com/user/",
+        user_avatar_url_tpl: "",
+        // Настройка списка выриантов перевода сообщений
+        langs: [{name:'ru', textName:['Русский']}, {name:'en', textName:['Английский']}, {name:'uk', textName:['Украинский']}],
+            
         // Функция назначенная в success вызывается после успешной инициализации чата.
         success:function()
         {
