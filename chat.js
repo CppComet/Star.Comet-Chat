@@ -920,6 +920,7 @@ StarCometChat.getMessageHtml = function(message)
     var text = message.message.replace(/\n/mg, "<br>")
                               .replace(/\[\[img=([A-z0-9\._]+)\]\]/mg, "<a href='"+StarCometChat.opt.file_dir+"/$1' target='_blank' ><img src='"+StarCometChat.opt.file_dir+"/$1'></a>")
 
+
     var langHtml = "";
     if(message.id > 0)
     {
