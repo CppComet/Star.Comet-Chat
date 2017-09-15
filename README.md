@@ -1,32 +1,31 @@
 <h1>Star.Comet-Chat</h1>
-Модуль чата личной переписки между пользователями для встраивания в сайт. <br>
-Больше подробностей смотрите на <a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat" >странице проекта</a>
+Chat module of personal correspondence between users for embedding in the site. <br>
+For more details, see <a href="https://comet-server.com/wiki/doku.php/en:comet:star-comet-chat" >project page</a>
 
 
-<h1>Демо работы чата</h1>
-<a href="https://comet-server.com/doc/CometQL/Star.Comet-Chat/backend-example/index.php">Демо работы чата</a>, 
-<a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat#интеграция_чата">Инструкции по интеграции чата</a>
+<h1>Demo</h1>
+<a href="https://comet-server.com/doc/CometQL/Star.Comet-Chat/backend-example/index.php">Demo</a>, 
 <img src="https://comet-server.com/wiki/lib/exe/fetch.php/star-comet-chat:screenshot_4_.png">
 
-<h1>Функционал чата</h1>
+<h1> Chat Functionality </h1>
 <ul>
-<li >Возможность передавать текстовые сообщения с прикреплённым изображением</li>
-<li >Содержит возможность поиска контактов в списке контактов</li>
-<li >Отдельные вкладки для списков избранных и заблокированных пользователей</li>
-<li >Звуковое уведомление при получении сообщения</li>
-<li >Кнопка пожаловаться</li>
-<li >Пригоден для работы в мобильных браузерах</li>
-<li >Отслеживание прочитано сообщение или нет. И как только сообщение будет прочитано получателем у отправителя появится на против сообщения две галочки</li>
+<li> The ability to send text messages with an attached image </li>
+<li> Contains the ability to search for contacts in the contact list </li>
+<li> Individual tabs for lists of favorites and blocked users </li>
+<li> Sound notification when you receive a message </li>
+<li> Button to report </li>
+<li> Suitable for mobile browsers </li>
+<li> Tracking is read message or not. And as soon as the message is read by the recipient, the sender will appear against the message with two check marks </li>
 </ul>
 
-<h1>Функционал админки чата</h1>
+<h1> Chat admin functionality </h1>
 <ul>
-<li >Real-time мониторинг всех сообщений пользователей</li>
-<li >Просмотр диалога любых двух пользователей</li>
-<li >Возможность просматривать все сообщения отдельно выбранного пользователя</li>
-<li >Список жалоб на пользователей от других пользователей</li>
-<li >Возможность просматривать только сообщения с вложениями</li>
+<li> Real-time monitoring of all user messages </li>
+<li> View a dialog of any two users </li>
+<li> Ability to view all messages of a single selected user </li>
+<li> List of user complaints from other users </li>
+<li> Ability to view only messages with attachments </li>
 </ul>
 
-<h1>Лицензия</h1>
+<h1>License</h1>
 Apache License 2.0

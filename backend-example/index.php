@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -20,21 +20,21 @@ include './config.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Подключаем библиотеки -->
+    <!-- Connect Libraries -->
     <script src="https://comet-server.com/CometServerApi.js" type="text/javascript"></script>
     <script src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/js/jquery.min.js"      type="text/javascript"></script>
     <script src="https://comet-server.com/doc/CometQL/Star.Comet-Chat/js/jquery.cookie.js"   type="text/javascript" ></script>
-    <title>Чат</title>
+    <title>Chat</title>
 </head>
 <body>
-    <h1>Описание чата</h1>
+    <h1>Chat description</h1>
     
-    <a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat">Описание чата</a>
+    <a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat">Chat description</a>
     <br>
-    <a href="https://github.com/Levhav/Star.Comet-Chat">Исходные коды чата</a>
+    <a href="https://github.com/Levhav/Star.Comet-Chat">Chat source codes</a>
     
     
-    <h1>Войти в чат от имени</h1>
+    <h1>Log in to chat on behalf of</h1>
 <?php 
     $i=0;
     do{

@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -13,9 +13,9 @@
  */
 
 /**
- * Файл перевода сообщений
- * 
- * Список поддерживаемых языков
+ * File transfer messages
+ *
+ * List of supported languages
  * https://tech.yandex.ru/translate/doc/dg/concepts/langs-docpage/
  */
  
@@ -29,7 +29,7 @@ $message_id = (int)$_POST['message_id'];
 $language = $_POST['language']; 
 if(strlen($language) != 2 && !preg_match("#^[a-z][a-z]$#", $language))
 {
-    die("Не верные данные запроса");
+    die("Invalid request data");
 }
  
 $result = mysqli_query(StarCometChat::conf()->getDB(), "SELECT * FROM `messages` where id = ".$message_id." and ( from_user_id= ".$user_id." or to_user_id = ".$user_id." ) ");
@@ -39,7 +39,7 @@ if(mysqli_errno(StarCometChat::conf()->getDB()) != 0)
 }
 else if(!mysqli_num_rows($result))
 {
-    die("Нет доступа");
+    die("No access");
 }
 
 $msg = mysqli_fetch_assoc($result);
@@ -63,7 +63,7 @@ $messageText = preg_replace("/\[\[img=([A-z0-9\._]+)\]\]/usi", "",  $msg['messag
 $translate = @file_get_contents("https://translate.yandex.net/api/v1.5/tr.json/translate?key=".getConfArray("yandex_translate_key")."&text=".urlencode($messageText)."&lang=".$language."&options=1");
 if(!$translate)
 {
-    die("Ошибка перевода");
+    die("Translation error");
 }
 
 $data = json_decode($translate, true);

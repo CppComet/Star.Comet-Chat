@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -22,8 +22,8 @@ sendUserLoginInfo($userId);
     <meta charset="utf-8" />
 </head>
 <body>
-<h1>Авторизация прошла успешно <?php echo $userId; ?></h1>
-Список пользователей чата которым вы можете отправить сообщение:<br>
+<h1>Authorization was successful <?php echo $userId; ?></h1>
+List of chat users with whom you can send a message:<br>
 <?php  
     $i=0;
     do{
@@ -36,7 +36,7 @@ sendUserLoginInfo($userId);
         
         if($userId == $info['user_id'])
         {
-            echo $i.' - <b>'.$info['name'].'</b> (вы)'; 
+            echo $i.' - <b>'.$info['name'].'</b> (you)'; 
         }
         else
         { 

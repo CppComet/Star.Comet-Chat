@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -52,7 +52,7 @@ else if(mysqli_num_rows($result))
     {
         if($countContacts < 240)
         {
-            // Ограничение не позволяющие запросить статусы online/offline больше чем у 240 последних контактов
+            // The restriction does not allow you to request online / offline statuses more than the last 240 contacts
             $contacts[] = $row['to_user_id']; 
             $countContacts++;
         }
@@ -64,11 +64,11 @@ else if(mysqli_num_rows($result))
 $info = getUsersInfo($contacts);
 if($info === false || $info === NULL)
 {
-    echo json_encode(array("success"=>false, "error" => "У вас нет права пользоватся чатом, обратитесь к администратору"));
+    echo json_encode(array("success"=>false, "error" => "You do not have the right to use chat, contact the administrator"));
     exit();
 }
 
-// Получение статусов пользователей с комет сервера  
+// Getting user status from comets
 $result = mysqli_query(StarCometChat::conf()->getComet(), "SELECT id, time FROM users_time WHERE id IN( ".join(",", $contacts).");"); 
 while($row = mysqli_fetch_assoc($result))
 {
@@ -87,7 +87,7 @@ foreach ($info as $key => &$value)
 
 if(!is_array($selfInfo))
 {  
-    echo json_encode(array("success"=>false, "error" => "У вас нет права пользоватся чатом"));
+    echo json_encode(array("success"=>false, "error" => "You do not have the right to use chat"));
     exit(); 
 }
 

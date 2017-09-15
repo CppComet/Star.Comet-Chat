@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -53,7 +53,7 @@ function getByAbuse()
                                                   where time > ".$startDate." and time < ".$endDate." ORDER BY `abuse`.`id` DESC limit 300"); 
     if(!mysqli_num_rows($result))
     {
-        echo "За указанный период жалоб не поступало.";
+        echo "During this period there were no complaints.";
     }
     
     while($row = mysqli_fetch_assoc($result))
@@ -74,7 +74,7 @@ function getByAbuse()
                     ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
                     ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
-                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['user_id_from']."&user_id2=".$row['user_id_to']."' target='_blank' >Диалог</a></div>"
+                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['user_id_from']."&user_id2=".$row['user_id_to']."' target='_blank' >Dialog</a></div>"
             . "</div>";
     }
 
@@ -123,8 +123,8 @@ function getByDate()
                     ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
                     ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
-                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
-                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
+                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Dialog</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Remove</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -159,7 +159,7 @@ function getByDateToday()
             else
             {
                 mysqli_query(StarCometChat::conf()->getDB(), 
-                    "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$row['from_user_id']."', 'Удалён', '".$url."/img/avata.png');");
+                    "INSERT INTO `users` (`id`, `login`, `avatar_url`) VALUES ('".$row['from_user_id']."', 'Deleted', '".$url."/img/avata.png');");
             }
         }
         
@@ -170,8 +170,8 @@ function getByDateToday()
                     ."<a href='".$userLink."".$row['from_user_login']."' target='_blank'><img src='".$avatarUrl.$row['from_user_avatar']."' title='".$row['from_user_login']."' /></a>"
                     ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='".$row['to_user_login']."' /></a>"
                 ."</div>"
-                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
-                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
+                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Dialog</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Remove</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -207,11 +207,11 @@ function getByLogin()
         echo "<div class='line' id='msgId-".$row['id']."' >"
                 . "<div class='message-date' >".date("d-m-Y H:i", $row['time'])."</div>"
                 . "<div class='dialogUsers'>"
-                    ."<a href='".$userLink."".$login."' target='_blank'><img src='".$avatarUrl.$avatar_url."' title='Отправитель ".$login."' /></a>" 
-                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='Получатель ".$row['to_user_login']."' /></a>"
+                    ."<a href='".$userLink."".$login."' target='_blank'><img src='".$avatarUrl.$avatar_url."' title='Send ".$login."' /></a>" 
+                    ."<a href='".$userLink."".$row['to_user_login']."'  target='_blank' ><img src='".$avatarUrl.$row['to_user_avatar']."' title='Recipient ".$row['to_user_login']."' /></a>"
                 ."</div>"
-                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Диалог</a></div>"
-                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
+                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank' >Dialog</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Remove</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -316,8 +316,8 @@ function getDialogByUsersId()
                     ."<a href='".$userLink."".$from_user."' target='_blank'><img src='".$avatarUrl.$from_user_avatar."' title='".$from_user."' /></a>"
                     ."<a href='".$userLink."".$to_user."' target='_blank'><img src='".$avatarUrl.$to_user_avatar."' title='".$to_user."' /></a>"
                 ."</div>"
-                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank'>Диалог</a></div>"
-                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Удалить</a></div>"
+                . "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1=".$row['from_user_id']."&user_id2=".$row['to_user_id']."' target='_blank'>Dialog</a></div>"
+                . "<div class='removeLink'><a href='#' onclick='removeMessage(".$row['id'].")' >Remove</a></div>"
                 . "<div class='message'>".$row['message']."</div>"
             . "</div>";
     }
@@ -328,33 +328,33 @@ if(isset($_GET['query']) && $_GET['query'] == "getByDate")
 {
     if(!isset($_GET['startDate']) || !isset($_GET['endDate']))
     {
-        die("Не переданы startDate и endDate");
+        die("StartDate and endDate not passed");
     }
 }
 else if(isset($_GET['query']) && $_GET['query'] == "getDialogByUsersId")
 {
     if(!isset($_GET['user_id1']) || !isset($_GET['user_id2']))
     {
-        die("Не переданы user_id1 и user_id2");
+        die("Not passed to user_id1 and user_id2");
     }
 }
 else if(isset($_GET['query']) && $_GET['query'] == "getByLogin")
 {
     if(!isset($_GET['startDate']) || !isset($_GET['endDate']))
     {
-        die("Не переданы startDate и endDate");
+        die("StartDate and endDate not passed");
     }
 
     if(!isset($_GET['login']) || strlen($_GET['login']) < 1 )
     {
-        die("Не передан login");
+        die("Not passed login");
     }
 }
 else if(isset($_GET['query']) && $_GET['query'] == "getByAbuse")
 {
     if(!isset($_GET['startDate']) || !isset($_GET['endDate']))
     {
-        die("Не переданы startDate и endDate");
+        die("StartDate and endDate not passed");
     }
 } 
 ?>
@@ -370,7 +370,7 @@ else if(isset($_GET['query']) && $_GET['query'] == "getByAbuse")
     <link rel="stylesheet" href="<?php echo $url; ?>/admin/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $url; ?>/admin/bootstrap/css/bootstrap-datetimepicker.css">
 
-    <!-- Подключаем библиотеки -->
+    <!-- Connect Libraries -->
     <script src="https://comet-server.com/CometServerApi.js" type="text/javascript"></script>
     <script src="<?php echo $url; ?>/js/jquery.min.js"      type="text/javascript"></script>
     <script src="<?php echo $url; ?>/js/jquery.cookie.js"   type="text/javascript" ></script>
@@ -483,11 +483,11 @@ var userLink = "<?php echo $userLink; ?>";
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<?php echo $url; ?>admin/admin.php">Управление чатом</a></li>
-                <li title="Диалоги за 1 час" ><a>1 час - <?php echo countMsgByTime(date("U")-3600); ?></a></li>
-                <li title="Диалоги за 24 часа" ><a>24 часа - <?php echo countMsgByTime(date("U")-3600*24); ?></a></li>
-                <li title="Диалоги за 7 дней" ><a>7 дней - <?php echo countMsgByTime(date("U")-3600*24*7); ?></a></li>
-                <li title="Диалоги за месяц" ><a>30 дней - <?php echo countMsgByTime(date("U")-3600*24*30); ?></a></li>
+                <li class="active"><a href="<?php echo $url; ?>admin/admin.php">Manage chat</a></li>
+                <li title="Dialogues for 1 hour" ><a>1 hour - <?php echo countMsgByTime(date("U")-3600); ?></a></li>
+                <li title="Dialogues for 24 hours" ><a>24 hours - <?php echo countMsgByTime(date("U")-3600*24); ?></a></li>
+                <li title="Dialogues for 7 days" ><a>7 days - <?php echo countMsgByTime(date("U")-3600*24*7); ?></a></li>
+                <li title="Dialogues for the month" ><a>30 days - <?php echo countMsgByTime(date("U")-3600*24*30); ?></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -520,7 +520,7 @@ var userLink = "<?php echo $userLink; ?>";
                 </div>
                 <div style="width: 200px; display: inline-block;float: left;    margin-right: 10px;">
                     <div class="form-group">
-                        <button class="btn btn-default" onclick="getByAbuse()">Выбрать жалобы по дате</button>
+                        <button class="btn btn-default" onclick="getByAbuse()">Select complaints by date</button>
                     </div>
                 </div>
             </div>
@@ -548,8 +548,8 @@ var userLink = "<?php echo $userLink; ?>";
                 </div>
                 <div style="width: 200px; display: inline-block;float: left;    margin-right: 10px;">
                     <div class="form-group input-group">
-                        <span class="input-group-btn"><button class="btn btn-default" onclick="getByDate(0)">По дате</button></span>
-                        <span class="input-group-btn"><button class="btn btn-default" onclick="getByDate(1)">С вложениями</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" onclick="getByDate(0)">By date</button></span>
+                        <span class="input-group-btn"><button class="btn btn-default" onclick="getByDate(1)">With attachments</button></span>
                     </div>
                 </div>
             </div>
@@ -576,9 +576,9 @@ var userLink = "<?php echo $userLink; ?>";
                     </div>
                 </div>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Выбрать сообщения по логину" id='getByLogin'>
+                    <input type="text" class="form-control" placeholder="Select messages by login" id='getByLogin'>
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="getByLogin()">Выбрать сообщения по логину!</button>
+                        <button class="btn btn-default" type="button" onclick="getByLogin()">Select messages by login!</button>
                     </span>
                 </div><!-- /input-group -->
             </div>
@@ -586,35 +586,35 @@ var userLink = "<?php echo $userLink; ?>";
             <?php
                 if(isset($_GET['query']) && $_GET['query'] == "getByDate")
                 {
-                    echo "<h1>Список сообщений за определённый период</h1>";
+                    echo "<h1>List of messages for a certain period</h1>";
                     echo "<div class='lineTable'>";
                     getByDate();
                     echo "</div>";
                 }
                 else if(isset($_GET['query']) && $_GET['query'] == "getByLogin")
                 {
-                    echo "<h1>Все сообщения пользователя</h1>";
+                    echo "<h1>All posts of the user</h1>";
                     echo "<div class='lineTable'>";
                     getByLogin();
                     echo "</div>";
                 }
                 else if(isset($_GET['query']) && $_GET['query'] == "getDialogByUsersId")
                 {
-                    echo "<h1>Диалог пользователей</h1>";
+                    echo "<h1>Dialog of users</h1>";
                     echo "<div class='lineTable'>";
                     getDialogByUsersId();
                     echo "</div>";
                 }
                 else if(isset($_GET['query']) && $_GET['query'] == "getByAbuse")
                 {
-                    echo "<h1>Список жалоб</h1>";
+                    echo "<h1>List of complaints</h1>";
                     echo "<div class='lineTable'>";
                     getByAbuse();
                     echo "</div>";
                 }
                 else
                 {
-                    echo "<h1>Real time мониторинг диалогов</h1>";
+                    echo "<h1>Real time monitoring of dialogues</h1>";
                     echo "<div id='msgTable'  class='lineTable' ></div>";
                     echo "<div class='lineTable' >";
                     getByDateToday();
@@ -678,7 +678,7 @@ $(function ()
                 html += "<div class='message-date' >"+moment().format("DD-MM-YYYY HH:mm")+"</div>"
                 html += "<div class='dialogUsers'><a href='"+userLink+event.data.loginFrom+"' target='_blank'><img src='"+event.data.avatarFrom+"' title='"+userLink+event.data.loginFrom+"' /></a>"
                         +"<a href='"+userLink+event.data.loginTo+"' ><img src='"+event.data.avatarTo+"' title='"+userLink+event.data.loginTo+"' /></a></div>"
-                html += "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1="+event.data.loginFrom+"&user_id2="+event.data.loginTo+"'>Диалог</a></div>"
+                html += "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1="+event.data.loginFrom+"&user_id2="+event.data.loginTo+"'>Dialog</a></div>"
                 html += "<div class='message'>"+event.data.message+"</div>"
 
             $("#msgTable").html("<div class='line'>"+html+"</div>" + $("#msgTable").html() );
@@ -686,11 +686,11 @@ $(function ()
 
         CometServer().subscription("msg.newAbuseForUser", function(event)
         {
-            var html = "<div class='message-abuse'>Жалоба</div>";
+            var html = "<div class='message-abuse'>A complaint</div>";
                 html += "<div class='message-date' >"+moment().format("DD-MM-YYYY HH:mm")+"</div>"
                 html += "<div class='dialogUsers'><a href='"+userLink+event.data.loginFrom+"' target='_blank'><img src='"+event.data.avatarFrom+"' title='"+userLink+event.data.loginFrom+"' /></a>"
                         +"<a href='"+userLink+event.data.loginTo+"' ><img src='"+event.data.avatarTo+"' title='"+userLink+event.data.loginTo+"' /></a></div>"
-                html += "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1="+event.data.loginFrom+"&user_id2="+event.data.loginTo+"'>Диалог</a></div>"
+                html += "<div class='dialogLink'><a href='?query=getDialogByUsersId&user_id1="+event.data.loginFrom+"&user_id2="+event.data.loginTo+"'>Dialog</a></div>"
 
 
             $("#msgTable").html("<div class='line'>"+html+"</div>" + $("#msgTable").html() );
@@ -700,7 +700,7 @@ $(function ()
 
 /**
  *  
- * @param {type} hasAttachments Получить только сообщения с вложениями
+ * @param {type} hasAttachments Get only messages with attachments
  * @returns {undefined} */
 function getByDate(hasAttachments)
 {
@@ -766,7 +766,7 @@ function getByLogin()
 
 function removeMessage(messageId)
 {
-    if(!confirm("Удалить сообщение?"))
+    if(!confirm("Delete message?"))
     {
         return;
     }

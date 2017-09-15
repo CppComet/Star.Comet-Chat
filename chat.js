@@ -1,7 +1,7 @@
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -11,7 +11,7 @@
  */
 
 /**
- * Url адрес для бекенда
+ * Url address for the backend
  * @type String|String
  */
 
@@ -25,86 +25,86 @@ var StarCometChat = function()
 StarCometChat.opt = {};
 
 /**
- * Адрес чата
- * Параметр home_dir содержит адрес расположения php скриптов чата
+ * Chat address
+ * The home_dir parameter contains the location address of php chat scripts
  */
 StarCometChat.opt.home_dir = undefined; 
 
 /**
- * Путь к папке с фотками отправлеными в чат 
+ * The path to the folder with the pictures sent to the chat
  * @type String
  */
 StarCometChat.opt.file_dir = "chatFiles"; 
  
 /**
- * Часть пути к разделу с пользователями
+ * Part of the way to the section with users
  * @type String
- * Например https://comet-server.com/user/
- * И к этому потом будет добавлен логин пользователя
+ * For example https://comet-server.com/user/
+ * And then the user's login will be added to this
  */
 StarCometChat.opt.user_url_tpl = "//"+window.location.host+"/"; 
 
 /**
- * callback функция вызываемая при закрытии окна чата.
+ * callback function called when the chat window is closed.
  * @type function
  */
 StarCometChat.opt.onCloseChat = undefined
 
 /**
- * Часть пути к аватаркам
+ * Part of the way to avatars
  * @type String
- * Например https://comet-server.com/avatar/
- * И к этому потом будет добавлен логин пользователя
+ * For example https://comet-server.com/avatar/
+ * And then the user's login will be added to this
  */
 StarCometChat.opt.user_avatar_url_tpl = "//"+window.location.host+"/"; 
 
 /**
- * Использование звуковых уведомлений
+ * Using sound notifications
  * @type Number
  */
 StarCometChat.opt.useSsound = 1;
 
 /**
- * Количество сообщений истории подгружаемых за 1 раз
- * Должно совпадать с тем что указанно в config.php
+ * Number of history messages downloaded for 1 time
+ * Must match the one specified in config.php
  * @var int
  */
 StarCometChat.opt.page_size = 30;
 
 /**
- * Данные пользователей из контактного листа
+ * User data from contact list
  */
 StarCometChat.opt.data = undefined;
 
 /**
- * id собеседника с которым открыт диалог
+ * id interlocutor with whom the dialogue is open
  * @type int
  * @private
  */
 StarCometChat.interlocutor_id = undefined;
 
 /**
- * Список файлов прикреплённых к сообщению
+ * List of files attached to the message
  * @private
  */
 StarCometChat.uploadFilesList = undefined;
 
 /**
- * Сумма всех непрочитанных сообщений
+ * The sum of all unread messages
  * @type Number
  * @private
  */
 StarCometChat.newMessagesSum = 0;
 
 /**
- * Указывает на то как прошла иницитализация
+ * Indicates how initialization was
  * @type Boolean
  * @private
  */
 StarCometChat.initSuccess = false;
 
 /**
- * Указывает на то что иницитализация была уже запущена
+ * Indicates that initiation was already started
  * @type Boolean
  * @private
  */
@@ -113,18 +113,18 @@ StarCometChat.initProgress = false;
 StarCometChat.first_dialog = -2
 
 /**
- * Список предлагаемых вариантов перевода 
+ * List of offered translation options
  * @type Array
- * @link https://tech.yandex.ru/translate/doc/dg/concepts/langs-docpage/ Список поддерживаемых языков
+ * @link https://tech.yandex.ru/translate/doc/dg/concepts/langs-docpage/ List of supported languages
  */
 StarCometChat.opt.langs = [{name:'ru', textName:['Русский']}, {name:'en', textName:['Английский']}]
     
 /**
- * Инициализация чата
+ * Chat initialization
  * options:{
  *  user_id: 1,
- *  user_key: "32 знака ключ авторизации"
- *  open:true // Надо ли открывать окно или только инициализировать чат и получить данные о контактах
+ *  user_key: "32 sign authorization key"
+ *  open:true // Do I need to open a window or just initialize the chat and get contact information
  * }
  *
  * @public
@@ -177,14 +177,14 @@ StarCometChat.init = function(options)
                             <div class="StarCometChat-all-message"></div>\
                             <div class="StarCometChat-left-tabs">\
                                 <div class="StarCometChat-left-tab StarCometChat-left-tab-select StarCometChat-left-base-tab"  onclick="StarCometChat.tabShowBase(); ">\
-                                    Сообщения\
+                                    Messages\
                                 </div>\
                                 <div class="StarCometChat-left-tab StarCometChat-left-favorite-tab" onclick="StarCometChat.tabShowFavorite(); ">\
-                                    Избраное\
+                                    Favorite\
                                 </div>\
                             </div>\
                             <div class="StarCometChat-left-search">\
-                                <input type="text" placeholder="Искать"  class="StarCometChat-searchInContacts" \
+                                <input type="text" placeholder="Search"  class="StarCometChat-searchInContacts" \
                                        onchange="StarCometChat.searchInContacts()"\
                                        onkeydown="StarCometChat.searchInContacts()">\
                             </div>\
@@ -206,7 +206,7 @@ StarCometChat.init = function(options)
                             </div>\
                             <div class="StarCometChat-inline" style="float: left;margin-left: 10px;">\
                                 <div class="StarCometChat-nameTo"></div>\
-                                <div class="StarCometChat-statusTo StarCometChat-statusTo-text">В сети</div>\
+                                <div class="StarCometChat-statusTo StarCometChat-statusTo-text">Online</div>\
                                 <div class="StarCometChat-lastOnlineTimeTo StarCometChat-small-color"></div>\
                             </div>\
                         </a>\
@@ -217,9 +217,9 @@ StarCometChat.init = function(options)
                                 </div>\
                                 <div class="StarCometChat-inline StarCometChat-top-btn-list"> \
                                     <ul class="StarCometChat-small-color" >\
-                                        <li onclick="StarCometChat.sendAbuse()"><img src="'+StarCometChat.opt.home_dir+'/img/pic4.png">Пожаловаться</li> \
-                                        <li onclick="StarCometChat.toggleBlockUser()" class="toggle-block-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/pic1.png"><span>Блокировать</span></li>\
-                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/star.png"><span>Избранное</span></li> \
+                                        <li onclick="StarCometChat.sendAbuse()"><img src="'+StarCometChat.opt.home_dir+'/img/pic4.png">Complain</li> \
+                                        <li onclick="StarCometChat.toggleBlockUser()" class="toggle-block-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/pic1.png"><span>Block</span></li>\
+                                        <li onclick="StarCometChat.toggleFavoritUser()" class="toggle-favorit-user-btn"><img src="'+StarCometChat.opt.home_dir+'/img/star.png"><span>To favorites</span></li> \
                                     </ul> \
                                 </div>\
                             </div>\
@@ -236,17 +236,17 @@ StarCometChat.init = function(options)
 \
                         <div class="StarCometChat-list-show-btn StarCometChat-list-toggle-btn"  onclick="StarCometChat.toggleLeftColumn()">&lt;</div>\
                         <div class="StarCometChat-list-hide-btn StarCometChat-list-toggle-btn"  onclick="StarCometChat.toggleLeftColumn()">&gt;</div>\
-                        <div class="StarCometChat-block-alert" >Пользователь заблокирован вами<br><a href="#"  onclick="StarCometChat.toggleBlockUser(); return false;">Разблокировать</a></div>\
+                        <div class="StarCometChat-block-alert" >User suspended by you<br><a href="#"  onclick="StarCometChat.toggleBlockUser(); return false;">Unlock</a></div>\
                         <div class="StarCometChat-not-paid-alert" ></div>\
  \
                         <div class="StarCometChat-input-holder">\
                             <table style="width: 100%;">\
                                 <tr>\
                                     <td>\
-                                        <textarea class="StarCometChat-input-text StarCometChat-input-message-text" placeholder="Сообщение" onkeydown="StarCometChat.keydownSendMessage(event)"  ></textarea>\
+                                        <textarea class="StarCometChat-input-text StarCometChat-input-message-text" placeholder="Message" onkeydown="StarCometChat.keydownSendMessage(event)"  ></textarea>\
                                     </td>\
                                     <td class="StarCometChat-input-btn-block" >\
-                                        <div onclick="StarCometChat.sendMessage()" title="Отправить Ctrl+Enter" >\
+                                        <div onclick="StarCometChat.sendMessage()" title="Send Ctrl+Enter" >\
                                             <img src="'+StarCometChat.opt.home_dir+'/img/carousel_arrow_right.png">\
                                         </div>\
                                         <div class="StarCometChat-input-file"> \
@@ -255,15 +255,10 @@ StarCometChat.init = function(options)
                                     </td>\
                                 </tr>\
                             </table>\
-                            <div class="StarCometChat-send-text"  >Отправить Ctrl+Enter</div>\
-                            <div class="StarCometChat-file-attachment" >Прикреплён файл</div>\
+                            <div class="StarCometChat-send-text"  >Send Ctrl+Enter</div>\
+                            <div class="StarCometChat-file-attachment" >Attached file</div>\
                             <div class="StarCometChat-copyInfo" >\
-                                <!-- Не удаляйте ссылку а если очень хочется удалить то перечислите хотя бы 2000 рублей на\n\
-                                     webmoney R161628751361 \n\
-                                     или на яндекс.деньги https://money.yandex.ru/to/410011754162524\n\
-                                     или на qiwi +79244269357 \n\
-                                 -->\
-                                <a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat" target="_blank" >Чат работает на comet-server.com</a>\
+                                <a href="https://comet-server.com/wiki/doku.php/comet:star-comet-chat" target="_blank" >Chat is working on comet-server.com</a>\
                             </div>\
                         </div>\
                     </td>\
@@ -646,7 +641,7 @@ StarCometChat.toggleBlockUser = function()
         // Пользователь не был до этого заблокирован и мы его блокируем
         $('.StarCometChat-userId-'+user_id).addClass('StarCometChat-loc-user').removeClass('StarCometChat-favorite-user').removeClass('StarCometChat-base-user')
         StarCometChat.tabShowLoc();
-        $(".toggle-block-user-btn span").html('Разблокировать')
+        $(".toggle-block-user-btn span").html('Unlock')
     }
     else
     {
@@ -654,7 +649,7 @@ StarCometChat.toggleBlockUser = function()
         setBlock = 0
         $('.StarCometChat-userId-'+user_id).removeClass('StarCometChat-loc-user').addClass('StarCometChat-base-user')
         StarCometChat.tabShowBase();
-        $(".toggle-block-user-btn span").html('Блокировать')
+        $(".toggle-block-user-btn span").html('Block')
     }
 
     StarCometChat.opt.data.contacts[user_id].relation_type = setBlock;
@@ -735,7 +730,7 @@ StarCometChat.sendAbuse = function()
 {
     var user_id = StarCometChat.interlocutor_id
 
-    if(!confirm("Вы точно хотите пожаловаться на пользователя"))
+    if(!confirm("Are you sure you want to report a user?"))
     {
         return;
     }
@@ -747,7 +742,7 @@ StarCometChat.sendAbuse = function()
         data:"abuse_to="+encodeURIComponent(user_id)+"&user_id="+encodeURIComponent(StarCometChat.opt.user_id)+"&user_key="+encodeURIComponent(StarCometChat.opt.user_key),
         success: function()
         {
-            alert("Жалоба принята")
+            alert("Accepted")
         }
     });
 }
@@ -782,7 +777,7 @@ StarCometChat.addSubscriptionToUserStatus = function(userId)
         if(StarCometChat.interlocutor_id == user_id)
         {
             var time = new Date()
-            $('.StarCometChat-lastOnlineTimeTo').html("Последний визит: "+StarCometChat.getTimeString(time.getTime()))
+            $('.StarCometChat-lastOnlineTimeTo').html("last visit: "+StarCometChat.getTimeString(time.getTime()))
             $(".StarCometChat-right-top").removeClass("StarCometChat-online-user");
         }
     })
@@ -813,7 +808,7 @@ StarCometChat.getContactHtml = function(contact)
     var info = [];
     if(contact.age > 0)
     {
-        info.push(contact.age+' лет');
+        info.push(contact.age+' years old');
     }
     
     if(contact.city && contact.city.length > 0)
@@ -906,7 +901,7 @@ StarCometChat.translateMessage = function(message_id, language)
             var data = JSON.parse(data)
             $(".StarCometChat-messge-"+message_id+" .StarCometChat-message-text")
                     .append("<div class='StarCometChat-message-translate StarCometChat-message-lang-"+language+"' >" + data.text
-                    + '<div class="StarCometChat-Ylogo" ><a href="http://translate.yandex.ru/">Переведено «Яндекс.Переводчиком</a></div></div>');
+                    + '<div class="StarCometChat-Ylogo" ><a href="http://translate.yandex.ru/">Translated by Yandex.Translator</a></div></div>');
             $('.StarCometChat-right-chat').data("plugin_tinyscrollbar").update("relative");
         }
     });
@@ -996,7 +991,7 @@ StarCometChat.openDialogPage = function(page)
             }
             if(data.history.length == StarCometChat.opt.page_size)
             {
-                html = "<div class='StarCometChat-loadLastPage' onclick='StarCometChat.openDialogPage("+(page+1)+")'  >Загрузить предыдущие сообщения</div>" + html;
+                html = "<div class='StarCometChat-loadLastPage' onclick='StarCometChat.openDialogPage("+(page+1)+")'  >Load previous messages</div>" + html;
             }
 
             $('.StarCometChat-message-list').html(html + $('.StarCometChat-message-list').html());
@@ -1113,11 +1108,11 @@ StarCometChat.openDialog = function(user_id)
 
             if(StarCometChat.opt.data.contacts[user_id].relation_type == 0)
             {
-                $(".toggle-block-user-btn span").html('Блокировать')
+                $(".toggle-block-user-btn span").html('Block')
             }
             else
             {
-                $(".toggle-block-user-btn span").html('Разблокировать')
+                $(".toggle-block-user-btn span").html('Unblock')
             }
             $(".StarCometChat-user-url-page").attr("href", StarCometChat.opt.user_url_tpl+StarCometChat.opt.data.contacts[user_id].login)
             $(".StarCometChat-avatarTo").attr("src", StarCometChat.opt.user_avatar_url_tpl+StarCometChat.opt.data.contacts[user_id].avatar_url)
@@ -1130,7 +1125,7 @@ StarCometChat.openDialog = function(user_id)
 
             if(data.history.length == StarCometChat.opt.page_size)
             {
-                html = "<div class='StarCometChat-loadLastPage' onclick='StarCometChat.openDialogPage(1)'  >Загрузить предыдущие сообщения</div>" + html;
+                html = "<div class='StarCometChat-loadLastPage' onclick='StarCometChat.openDialogPage(1)'  >Load previous messages</div>" + html;
             }
 
 
@@ -1141,7 +1136,7 @@ StarCometChat.openDialog = function(user_id)
             if(data.last_online_time/1 > 0)
             {
                 $(".StarCometChat-right-top").removeClass("StarCometChat-online-user");
-                $('.StarCometChat-lastOnlineTimeTo').html("Последний визит: "+StarCometChat.getTimeString(data.last_online_time*1000))
+                $('.StarCometChat-lastOnlineTimeTo').html("last visit: "+StarCometChat.getTimeString(data.last_online_time*1000))
             }
             else if(data.last_online_time/1 < 0)
             {
@@ -1182,7 +1177,7 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // не верный тип файла
         console.log("не верный тип файла " + event.target.files[0].type)
-        $(".StarCometChat-file-attachment").html("Не верный тип файла").animate({'opacity': 1})
+        $(".StarCometChat-file-attachment").html("Invalid file type").animate({'opacity': 1})
         return;
     }
 
@@ -1191,11 +1186,11 @@ StarCometChat.uploadFile = function(event)
         // @todo выводить предупреждение
         // файл слишком большой
         console.log("файл слишком большой " + event.target.files[0].size)
-        $(".StarCometChat-file-attachment").html("Файл слишком большой").animate({'opacity': 1})
+        $(".StarCometChat-file-attachment").html("File too large").animate({'opacity': 1})
         return;
     }
     StarCometChat.uploadFilesList = event.target.files[0]
-    $(".StarCometChat-file-attachment").html("Файл прикреплён").animate({'opacity': 1})
+    $(".StarCometChat-file-attachment").html("File attached").animate({'opacity': 1})
 }
 
 /**

@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -15,29 +15,29 @@ ini_set('display_errors','on');
 error_reporting(E_ALL);
 
 /**
- * ip адрес с которого разрешено вызывать api методы управления чатом
- * Или false если ограничение отключено (не безопасно)
+ * ip address from which it is allowed to call api methods of chat management
+ * Or false if the restriction is disabled (not secure)
  */
 $trusted_ip = false;
 
 session_start();
 
 /**
- * Разрешает доступ только для запросов с доверенных ip адресов
+ * Allows access only for requests from trusted ip addresses
  */
 function testIpOrDie()
 {
     global $trusted_ip;
     if ( $trusted_ip !== false && $_SERVER['REMOTE_ADDR'] != getConfArray("trusted_ip"))
     {
-        die("Нет доступа с ip ".$_SERVER['REMOTE_ADDR']);
+        die("No access from ip ".$_SERVER['REMOTE_ADDR']);
     }
 }
 
 
 /**
- * Функция возвращает массив с информацией о пользователе по его идентификатору
- * Обычно информация о пользователях хранится в бд, но здесь для примера в целях упрощения кода информация захардкодена в виде массива
+ * The function returns an array with information about the user by its identifier
+ * Usually information about users is stored in the database, but here for an example in order to simplify the code, the information is hard-coded as an array
  */
 function getUserInfoById($id)
 {
@@ -58,8 +58,8 @@ function getUserInfoById($id)
 }
 
 /**
- * Функция возвращает массив с информацией о пользователе по его лигину
- * Обычно информация о пользователях хранится в бд, но здесь для примера в целях упрощения кода информация захардкодена в виде массива
+ * The function returns an array with information about the user by its lig
+ * Usually information about users is stored in the database, but here for an example in order to simplify the code, the information is hard-coded as an array
  */
 function getUserInfoByLogin($login)
 {
@@ -80,7 +80,7 @@ function getUserInfoByLogin($login)
 }
 
 /**
- * Возвращает строку хеша авторизации для пользователя по его идентификатору 
+ * Returns the authorization hash string for the user by its ID
  */
 function getUserHash($user_id)
 {
@@ -88,7 +88,7 @@ function getUserHash($user_id)
     return md5($salt.md5($salt));
 }
 
-// Вызвать при входе пользователя на сайт
+// Call when a user logs on to the site
 function sendUserLoginInfo($user_id)
 {
     $ch = curl_init();
@@ -101,14 +101,14 @@ function sendUserLoginInfo($user_id)
     
     if($output !="usersAuth-ok")
     {
-        echo "<pre>Ошибка доступа к api:sendUserLoginInfo:\n";
+        echo "<pre>Error accessing api:sendUserLoginInfo:\n";
         echo "https://comet-server.com/doc/CometQL/Star.Comet-Chat/usersAuth.php?id=".((int)$user_id)."&hash=".getUserHash($user_id)."\n"; 
         var_dump($output);
         echo "</pre>";
     }
 }
 
-// Вызвать при выходе пользователя с сайта
+// Call when a user leaves the site
 function sendUserExitInfo($user_id)
 {
     $ch = curl_init();
@@ -120,7 +120,7 @@ function sendUserExitInfo($user_id)
     curl_close($ch);
     if($output !="usersAuth-ok")
     {
-        echo "<pre>Ошибка доступа к api:sendUserExitInfo:\n";
+        echo "<pre>Error accessing api:sendUserExitInfo:\n";
         var_dump($output);
         echo "</pre>";
     }

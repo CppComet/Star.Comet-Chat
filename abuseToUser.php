@@ -1,8 +1,8 @@
 <?php
 /**
  * Apache License 2.0
- * @author Trapenok Victor (Трапенок Виктор Викторович), Levhav@ya.ru, 89244269357
- * Буду рад новым заказам на разработку чего ни будь.
+ * @author Trapenok Victor, Levhav@ya.ru, 89244269357
+ * I will be glad to new orders for the development of anything.
  *
  * Levhav@ya.ru
  * Skype:Levhav
@@ -18,10 +18,10 @@ $user_id = getUserIdOrDie();
 $abuse_to_user_id = (int)$_POST['abuse_to'];
 if($abuse_to_user_id <= 0)
 {
-    die("Не верный параметр user_id_to");
+    die("Invalid parameter user_id_to");
 }
     
-// Определяем тип связи пользователей (избранное забанен нейтральная)
+// Determine the type of connection of users (favorites are banned neutral)
 $result = mysqli_query(StarCometChat::conf()->getDB(),
         "INSERT INTO `abuse` (`id`, `user_id_from`, `user_id_to`, `time`) VALUES (NULL, '".$user_id."', '".$abuse_to_user_id."', '".date("U")."');");
 
