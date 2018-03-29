@@ -27,7 +27,7 @@ $qery = "select contacts.*, new_messages.count_new_msg as newMessages
             ( 
                 SELECT users_relations.to_user_id, users_relations.type as relation_type, last_msg_time.time as last_message_time  
                 FROM `users_relations` 
-                    left join (SELECT from_user_id, time FROM `messages` where to_user_id = ".$user_id." group by from_user_id) as last_msg_time  
+                    left join (SELECT from_user_id, max(time) as time FROM `messages` where to_user_id = ".$user_id." group by from_user_id) as last_msg_time  
                     on users_relations.to_user_id = last_msg_time.from_user_id 
                 where users_relations.user_id = ".$user_id."
             ) as contacts
